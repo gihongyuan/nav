@@ -1,0 +1,41 @@
+# 配置文件
+title: 导航
+icon: /icons/navigation.svg
+background: /background.jpeg
+# 搜索引擎
+search:
+  - Baidu:
+      name: Baidu
+      url: https://www.baidu.com/s?wd={query}
+      icon: /icons/baidu.svg
+
+  - Google:
+      name: Google
+      url: https://www.google.com/search?q={query}
+      icon: /icons/google.svg
+
+# 链接
+urls:
+  - 搜索引擎:
+      icon: /icons/search.svg
+      children:
+        - 百度:
+            icon: /icons/baidu.svg
+            url: https://www.baidu.com/
+            description: 百度搜索
+        - Google:
+            icon: /icons/google.svg
+            url: https://www.google.com.hk/
+            description: Google 搜索
+
+  - 邮箱:
+      icon: /icons/email.svg
+      children:
+        - 163邮箱:
+            icon: /icons/163.svg
+            url: https://mail.163.com/
+            description: 网易 163 邮箱
+        - 谷歌邮箱:
+            icon: /icons/gmail.svg
+            url: http://gmail.google.com/
+            description: Gmail 邮箱

@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>个人起始页</title>
+<style>
+  :root {
+    --surface: rgba(255, 255, 255, 0.75);
+    --text-main: #1d1f23;
+    --text-sub: #666666;
+    --accent: #3b82f6;
+    --accent-hover: #2563eb;
+    --accent-bg: rgba(59,130,246,0.1);
+    --glass: rgba(255,255,255,0.65);
+    --glass-border: rgba(255,255,255,0.4);
+    --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    --shadow-hover: 0 8px 32px rgba(0,0,0,0.12);
+    --shadow-menu: 0 12px 40px rgba(0,0,0,0.15);
+    --blur: 24px;
+    --r-lg: 100px;
+    --r-md: 16px;
+    --r-sm: 12px;
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; outline: none; -webkit-font-smoothing: antialiased; }
+  
+  body { 
+    margin: 0; padding: 0; 
+    font-family: var(--font); 
+    color: var(--text-main); 
+    height: 100vh; overflow: hidden;
+    background-color: #111;
+    display: flex; 
+    justify-content: center; 
+    position: relative;
+  }
+  
+  /* Wallpaper Layer */
+  #wallpaper {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: url('https://gips2.baidu.com/it/u=641660390,3943119249&fm=3074&app=3074&f=PNG?w=2560&h=1440');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: filter 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    filter: brightness(0.95);
+    transform: scale(1.0);
+  }
+
+  body.search-focused #wallpaper {
+    filter: blur(24px) brightness(0.8);
+    transform: scale(1.05); 
+  }
+
+  .container {
+    width: 100%; max-width: 920px; padding: 48px 20px 100px 20px;
+    display: flex; flex-direction: column; align-items: center;
+    z-index: 1;
+  }
+
+  /* === Top Info: Time, Date === */
+  .hero { text-align: center; margin-bottom: 16px; animation: fadeIn 0.8s ease; }
+  .time { 
+    font-size: 64px; font-weight: 200; letter-spacing: -2px; line-height: 1; margin-bottom: 4px; 
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .date { 
+    font-size: 16px; font-weight: 500; 
+    color: rgba(255,255,255,0.9);
+    text-shadow: 0 1px 6px rgba(0,0,0,0.2);
+  }
+
+  /* === Search Bar === */
+  .search-wrap {
+    width: min(100%, 600px); margin-bottom: 32px; position: relative;
+    z-index: 10;
+  }
+  .search-box {
+    display: flex;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--r-lg);
+    padding: 6px 8px 6px 20px;
+    box-shadow: var(--shadow);
+    transition: all 0.3s;
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+  }
+  .search-box:focus-within {
+    transform: scale(1.02);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(255,255,255,0.8);
+  }
+
+  /* === Custom Dropdown === */
+  .engine-dropdown {
+    position: relative;
+    min-width: 130px;
+    margin-right: 12px;
+    padding-right: 8px;
+    border-right: 1px solid var(--glass-border);
+  }
+  .engine-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 6px 2px;
+    border-radius: 8px;
+    transition: 0.2s;
+    color: var(--text-main);
+    width: 100%;
+  }
+  .engine-trigger:hover { background: rgba(0,0,0,0.05); }
+  .engine-icon { width: 18px; height: 18px; border-radius: 4px; overflow: hidden; flex-shrink: 0; }
+  .engine-icon svg { width: 100%; height: 100%; }
+  .engine-name { 
+    font-size: 14px; 
+    font-weight: 600; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    flex: 1;
+  }
+  .chevron { width: 12px; height: 12px; color: var(--text-sub); transition: 0.3s; flex-shrink: 0; }
+  .engine-dropdown.open .chevron { transform: rotate(180deg); color: var(--accent); }
+  
+  /* === Engine Menu (Solid Background) === */
+  .engine-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    width: 100%; 
+    background: #ffffff; /* 实色背景，不再虚化 */
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    box-shadow: var(--shadow-menu);
+    padding: 6px;
+    opacity: 0;
+    transform: scale(0.95) translateY(-8px);
+    pointer-events: none;
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 10;
+  }
+  .engine-dropdown.open .engine-menu {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+  }
+  .engine-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-main);
+    transition: 0.2s;
+  }
+  .engine-option:hover { background: #f0f2f5; }
+  .engine-option.active { color: var(--accent); font-weight: 600; }
+  .engine-option.active::after { content: '✓'; margin-left: auto; font-size: 11px; color: var(--accent); }
+
+  .search-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    color: var(--text-main);
+    padding: 8px 0;
+    margin-right: 4px;
+    min-width: 0; 
+  }
+  .search-input::placeholder { color: var(--text-sub); }
+
+  .search-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--r-lg);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(59,130,246,0.3);
+  }
+  .search-btn:hover {
+    background: var(--accent-hover);
+    transform: scale(1.05);
+  }
+  .search-btn svg { width: 16px; height: 16px; stroke-width: 3; }
+
+  /* === Content: Grid (Boxless Cards) === */
+  .content { width: 100%; flex: 1; overflow-y: auto; padding-bottom: 20px; }
+  
+  .grid {
+    display: grid; 
+    grid-template-columns: repeat(6, 1fr); 
+    gap: 12px 4px; 
+    padding: 0 20px;
+  }
+  .grid::-webkit-scrollbar { width: 6px; }
+  .grid::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.4); border-radius: 3px; }
+
+  .card {
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    background: transparent; 
+    border: none; 
+    padding: 12px 4px;
+    text-decoration: none; color: rgba(255,255,255,0.9);
+    transition: all 0.2s ease; gap: 8px; position: relative; cursor: pointer;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4); 
+    border-radius: var(--r-md);
+  }
+  .card:hover { 
+    background: rgba(255,255,255,0.1); 
+    transform: translateY(-2px);
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+  }
+
+  .card-icon {
+    width: 52px; height: 52px; border-radius: 14px; 
+    background: rgba(255,255,255,0.25); 
+    backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center; font-size: 22px;
+    transition: 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .card:hover .card-icon { 
+    background: rgba(255,255,255,0.45); 
+    transform: scale(1.08); 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  }
+  
+  .card-title { 
+    font-size: 12px; font-weight: 500; line-height: 1.3;
+    max-width: 100%; overflow: hidden; text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: 0.2s;
+  }
+  
+  .empty { grid-column: 1/-1; text-align: center; padding: 30px; color: #fff; font-size: 14px; background: rgba(0,0,0,0.3); border-radius: var(--r-md); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px); }
+
+  /* === Dock (Clean) === */
+  .dock-wrap {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    z-index: 100;
+  }
+
+  .dock {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 12px; background: var(--surface); backdrop-filter: blur(var(--blur));
+    border: 1px solid var(--glass-border); border-radius: 22px; box-shadow: var(--shadow-hover);
+  }
+
+  .dock-item {
+    width: 40px; height: 40px; 
+    border-radius: 12px; background: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.3);
+    display: flex; align-items: center; justify-content: center; 
+    cursor: pointer; transition: 0.15s cubic-bezier(0.2, 0.8, 0.2, 1); position: relative;
+    color: var(--text-main);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+  .dock-item svg { width: 20px; height: 20px; transition: 0.2s; }
+  
+  .dock-item:hover { 
+    background: #fff; 
+    transform: scale(1.15) translateY(-6px); 
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+    color: var(--accent);
+  }
+  
+  .dock-item.active {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(59,130,246,0.4);
+    border-color: var(--accent);
+  }
+  .dock-item.active svg { stroke: #fff; }
+
+  .dock-tip {
+    position: absolute; top: -32px; background: #fff; color: var(--text-main);
+    font-size: 11px; font-weight: 600; padding: 5px 10px; border-radius: 8px; box-shadow: var(--shadow);
+    opacity: 0; transition: 0.2s; pointer-events: none; white-space: nowrap;
+    transform: translateY(4px);
+  }
+  .dock-item:hover .dock-tip { opacity: 1; transform: translateY(0); }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  
+  @media (max-width: 800px) {
+    .grid { grid-template-columns: repeat(4, 1fr); gap: 16px 10px; }
+  }
+  @media (max-width: 600px) {
+    .container { padding: 32px 16px 90px 16px; }
+    .time { font-size: 48px; }
+    .grid { grid-template-columns: repeat(3, 1fr); gap: 12px 8px; }
+    .card-icon { width: 48px; height: 48px; }
+    .dock-wrap { bottom: 16px; }
+    .engine-name { display: none; }
+    .engine-dropdown { min-width: 60px; justify-content: center; }
+    .engine-trigger { padding-right: 4px; }
+    .chevron { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Wallpaper Background Layer -->
+<div id="wallpaper"></div>
+
+<div class="container">
+  <header class="hero">
+    <div class="time" id="time">00:00</div>
+    <div class="date" id="date">Loading...</div>
+  </header>
+
+  <!-- Search Bar with Custom Dropdown -->
+  <form class="search-wrap" id="searchForm">
+    <div class="search-box">
+      
+      <!-- Custom Engine Dropdown -->
+      <div class="engine-dropdown" id="engineDropdown">
+        <div class="engine-trigger" id="engineTrigger">
+          <div class="engine-icon" id="triggerIcon">
+            <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          </div>
+          <span class="engine-name" id="triggerName">Google</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+        <div class="engine-menu" id="engineMenu">
+          <div class="engine-option active" data-engine="google">
+            <svg class="engine-icon" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Google
+          </div>
+          <div class="engine-option" data-engine="bing">
+            <svg class="engine-icon" viewBox="0 0 24 24"><path fill="#008373" d="M4.5 3.5v17l6 3.5V9L4.5 3.5zm7.5 4.5v12l7.5 4.5V12l-7.5-4z"/></svg>
+            Bing
+          </div>
+          <div class="engine-option" data-engine="baidu">
+            <svg class="engine-icon" viewBox="0 0 24 24"><path fill="#306CF4" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6zm4 4h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            百度
+          </div>
+        </div>
+      </div>
+      
+      <input type="text" class="search-input" id="searchInput" placeholder="输入关键词搜索..." autocomplete="off">
+      
+      <button type="submit" class="search-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </button>
+    </div>
+  </form>
+
+  <main class="content">
+    <div class="grid" id="grid"></div>
+  </main>
+</div>
+
+<div class="dock-wrap">
+  <div class="dock" id="dock">
+    <div class="dock-item active" data-cat="all" onclick="setFilter('all')">
+      <span class="dock-tip">全部</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+    </div>
+    <div class="dock-item" data-cat="work" onclick="setFilter('work')">
+      <span class="dock-tip">工作</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+    </div>
+    <div class="dock-item" data-cat="dev" onclick="setFilter('dev')">
+      <span class="dock-tip">开发</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+    </div>
+    <div class="dock-item" data-cat="media" onclick="setFilter('media')">
+      <span class="dock-tip">娱乐</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+    </div>
+    <div class="dock-item" data-cat="social" onclick="setFilter('social')">
+      <span class="dock-tip">社交</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+    </div>
+  </div>
+</div>
+
+<script>
+  const searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('focus', () => document.body.classList.add('search-focused'));
+  searchInput.addEventListener('blur', () => document.body.classList.remove('search-focused'));
+
+  const engineDropdown = document.getElementById('engineDropdown');
+  const engineTrigger = document.getElementById('engineTrigger');
+  const engineMenu = document.getElementById('engineMenu');
+  const engineOptions = document.querySelectorAll('.engine-option');
+  const triggerIcon = document.getElementById('triggerIcon');
+  const triggerName = document.getElementById('triggerName');
+  
+  let currentEngine = 'google';
+
+  engineTrigger.addEventListener('click', (e) => { e.stopPropagation(); engineDropdown.classList.toggle('open'); });
+  engineOptions.forEach(option => {
+    option.addEventListener('click', () => {
+      engineOptions.forEach(opt => opt.classList.remove('active'));
+      option.classList.add('active');
+      currentEngine = option.dataset.engine;
+      triggerIcon.innerHTML = option.querySelector('svg').outerHTML;
+      triggerName.textContent = option.textContent.trim();
+      engineDropdown.classList.remove('open');
+    });
+  });
+  document.addEventListener('click', (e) => { if (!engineDropdown.contains(e.target)) engineDropdown.classList.remove('open'); });
+
+  const links = [
+    { cat: 'work', icon: '👔', title: 'Slack', url: 'https://slack.com' },
+    { cat: 'work', icon: '📅', title: 'Google 日历', url: 'https://calendar.google.com' },
+    { cat: 'work', icon: '📊', title: 'Figma', url: 'https://figma.com' },
+    { cat: 'dev', icon: '🐙', title: 'GitHub', url: 'https://github.com' },
+    { cat: 'dev', icon: '📖', title: 'Stack Overflow', url: 'https://stackoverflow.com' },
+    { cat: 'dev', icon: '📦', title: 'NPM', url: 'https://npmjs.com' },
+    { cat: 'media', icon: '▶️', title: 'YouTube', url: 'https://youtube.com' },
+    { cat: 'media', icon: '🎵', title: 'Spotify', url: 'https://spotify.com' },
+    { cat: 'media', icon: '📺', title: 'Netflix', url: 'https://netflix.com' },
+    { cat: 'social', icon: '𝕏', title: 'Twitter', url: 'https://twitter.com' },
+    { cat: 'social', icon: '💼', title: 'LinkedIn', url: 'https://linkedin.com' },
+    { cat: 'social', icon: '💬', title: 'Discord', url: 'https://discord.com' },
+  ];
+
+  const grid = document.getElementById('grid');
+  const dockItems = document.querySelectorAll('.dock-item[data-cat]');
+  let filter = 'all';
+
+  window.setFilter = function(cat) {
+    filter = cat;
+    dockItems.forEach(btn => { if (btn.dataset.cat === cat) btn.classList.add('active'); else btn.classList.remove('active'); });
+    render();
+  };
+
+  function render() {
+    grid.innerHTML = '';
+    const match = links.filter(l => filter === 'all' || l.cat === filter);
+    if (!match.length) { grid.innerHTML = '<div class="empty">无匹配项</div>'; return; }
+    match.forEach(l => {
+      const el = document.createElement('a');
+      el.className = 'card'; el.href = l.url;
+      el.innerHTML = `<div class="card-icon">${l.icon}</div><div class="card-title">${l.title}</div>`;
+      grid.appendChild(el);
+    });
+  }
+
+  render();
+
+  const searchForm = document.getElementById('searchForm');
+  const engines = { google: 'https://www.google.com/search?q=', bing: 'https://www.bing.com/search?q=', baidu: 'https://www.baidu.com/s?wd=' };
+  searchForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const q = searchInput.value.trim();
+    if (q) window.location.href = engines[currentEngine] + encodeURIComponent(q);
+  });
+
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('time').textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+    document.getElementById('date').textContent = now.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' });
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+</script>
+</body>
+</html>

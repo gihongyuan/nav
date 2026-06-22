@@ -1,0 +1,43 @@
+{
+  "name": "nav-startup",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .ts,.vue --fix",
+    "format": "prettier --write \"src/**/*.{ts,vue,css}\"",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@vueuse/core": "^14.3.0",
+    "js-yaml": "^5.0.0",
+    "pinia": "^3.0.4",
+    "vue": "^3.5.34",
+    "vue-router": "^5.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@iconify-json/tabler": "^1.2.35",
+    "@rollup/plugin-yaml": "^5.0.0",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^24.12.3",
+    "@typescript-eslint/eslint-plugin": "^8.61.1",
+    "@typescript-eslint/parser": "^8.61.1",
+    "@vitejs/plugin-vue": "^6.0.6",
+    "@vue/eslint-config-typescript": "^14.9.0",
+    "@vue/tsconfig": "^0.9.1",
+    "eslint": "^10.5.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.6",
+    "eslint-plugin-vue": "^10.9.2",
+    "prettier": "^3.8.4",
+    "typescript": "~6.0.2",
+    "unocss": "^66.7.2",
+    "vite": "^8.0.12",
+    "vitest": "^4.1.9",
+    "vue-tsc": "^3.2.8"
+  }
+}

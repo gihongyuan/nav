@@ -1,0 +1,226 @@
+<template>
+  <form class="search-bar" @submit.prevent="handleSearch">
+    <BaseGlassPanel blur="md" radius="pill" class="search-bar__box">
+      <!-- 引擎下拉：仅在有引擎时显示 -->
+      <BaseDropdown v-if="hasEngines" v-model="open" class="search-bar__dropdown" :class="{ open }">
+        <template #trigger>
+          <div class="search-bar__trigger">
+            <BaseIcon v-if="currentEngine?.icon" :src="currentEngine.icon" :size="18" />
+            <span class="trigger-name">{{ currentEngine?.name }}</span>
+            <svg
+              class="chevron"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </div>
+        </template>
+        <EngineOption
+          v-for="eng in engines"
+          :key="eng.name"
+          :name="eng.name"
+          :icon="eng.icon"
+          :active="currentEngine?.name === eng.name"
+          @select="selectEngine(eng.name)"
+        />
+      </BaseDropdown>
+
+      <input
+        ref="inputRef"
+        v-model="query"
+        type="text"
+        class="search-bar__input"
+        :placeholder="placeholder"
+        autocomplete="off"
+        :disabled="!hasEngines"
+        @focus="setFocused(true)"
+        @blur="setFocused(false)"
+      />
+
+      <button
+        type="submit"
+        class="search-bar__btn"
+        :disabled="!hasEngines"
+        :title="currentEngine ? `用 ${currentEngine.name} 搜索` : '未配置搜索引擎'"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </svg>
+      </button>
+    </BaseGlassPanel>
+  </form>
+</template>
+
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { BaseGlassPanel, BaseDropdown, BaseIcon } from '@/components/base'
+import EngineOption from './EngineOption.vue'
+import { useSearchFocus } from '@/composables'
+import { useConfigStore } from '@/stores'
+
+const configStore = useConfigStore()
+const { setFocused } = useSearchFocus()
+
+const open = ref(false)
+const query = ref('')
+const inputRef = ref<HTMLInputElement | null>(null)
+
+const engines = computed(() => configStore.searchEngines)
+const hasEngines = computed(() => engines.value.length > 0)
+
+/**
+ * 仅存「当前选中的引擎名」；具体的 SearchEngine 对象用 computed 派生，
+ * 这样 yaml 增删改后会自动跟随，而不会保留过期对象引用。
+ */
+const selectedName = ref<string | null>(null)
+
+const currentEngine = computed(() => {
+  if (!hasEngines.value) return null
+  return engines.value.find((e) => e.name === selectedName.value) ?? engines.value[0]
+})
+
+const placeholder = computed(() => {
+  if (!hasEngines.value) return '未配置搜索引擎'
+  return `在 ${currentEngine.value?.name ?? ''} 中搜索...`
+})
+
+function selectEngine(name: string) {
+  selectedName.value = name
+  open.value = false
+  inputRef.value?.focus()
+}
+
+function handleSearch() {
+  const q = query.value.trim()
+  const engine = currentEngine.value
+  if (!q || !engine) return
+  const url = engine.url.replace('{query}', encodeURIComponent(q))
+  window.open(url, '_blank', 'noopener,noreferrer')
+  query.value = ''
+}
+</script>
+
+<style scoped>
+.search-bar {
+  width: min(100%, 600px);
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 10;
+}
+.search-bar__box {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 6px 8px 6px 20px;
+  transition: all var(--dur-base) var(--ease-out);
+}
+.search-bar__box:focus-within {
+  transform: scale(1.02);
+  background: var(--color-surface-strong);
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow-2);
+}
+
+.search-bar__trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 2px;
+  padding-right: 12px;
+  border-right: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+.trigger-name {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80px;
+}
+.chevron {
+  width: 12px;
+  height: 12px;
+  color: var(--color-text-sub);
+  transition: transform var(--dur-base) var(--ease-out);
+  flex-shrink: 0;
+}
+.search-bar__dropdown.open .chevron {
+  transform: rotate(180deg);
+  color: var(--color-accent);
+}
+
+.search-bar__dropdown {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar__input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  color: var(--color-text);
+  padding: 8px 12px;
+  min-width: 0;
+}
+.search-bar__input::placeholder {
+  color: var(--color-text-sub);
+}
+.search-bar__input:disabled {
+  cursor: not-allowed;
+}
+
+.search-bar__btn {
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-pill);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease-out);
+  flex-shrink: 0;
+  box-shadow: var(--shadow-accent);
+}
+.search-bar__btn:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+  transform: scale(1.05);
+}
+.search-bar__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.search-bar__btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+@media (max-width: 600px) {
+  .trigger-name {
+    display: none;
+  }
+  .search-bar__trigger {
+    padding-right: 8px;
+  }
+  .chevron {
+    display: none;
+  }
+}
+</style>

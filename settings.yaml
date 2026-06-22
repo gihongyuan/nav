@@ -15,6 +15,7 @@ search:
       icon: /icons/google.svg
 
 # 链接
+# 单条书签可选 background 字段：缺省白色，可设任意颜色或 transparent（仅显示图标）
 urls:
   - 搜索引擎:
       icon: /icons/search.svg

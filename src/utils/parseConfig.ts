@@ -80,6 +80,7 @@ function parseChildren(raw: unknown): BookmarkLink[] {
       url: String(o.url ?? ''),
     }
     if (o.description) link.description = String(o.description)
+    if (o.background != null) link.background = String(o.background)
     return link
   })
   return items.filter((v): v is BookmarkLink => v !== null)

@@ -60,26 +60,28 @@
 
 ## 任务三：书签卡片背景可配置（settings.yaml）
 
-- [ ] 完成
+- [x] 完成
 
-**目标**：书签卡片背景支持在 `settings.yaml` 配置，默认白色，可配置为任意颜色或透明。
+**目标**：书签图标磁贴背景支持在 `settings.yaml` 的每条书签项内独立配置，默认白色磁贴，可配置为任意颜色，或 `transparent`（仅显示图标本身、无任何容器装饰）。
 
-**背景**：`src/components/business/BookmarkCard.vue` 当前默认态无背景（依赖壁纸），hover 态为 `rgba(255,255,255,0.1)`；图标容器有独立玻璃样式。配置类型 `AppConfig`（`src/types/config.ts`）与解析 `parseConfig`（`src/utils/parseConfig.ts`）目前仅含 `title / icon / background / search / urls`，无卡片背景字段。
+**背景**：`src/components/business/BookmarkCard.vue` 原默认态无外层背景（依赖壁纸），图标容器固定为白色半透明玻璃；用户希望以「内层小磁贴」承载可配置背景，外层不再有可见矩形。配置类型 `AppConfig`（`src/types/config.ts`）与解析 `parseConfig`（`src/utils/parseConfig.ts`）原仅含 `title / icon / background / search / urls`，无书签项背景字段。
 
 **涉及文件**：
 - `settings.yaml`
 - `src/types/config.ts`、`src/utils/parseConfig.ts`
-- `src/stores/config.ts`
 - `src/components/business/BookmarkCard.vue`
 
 **实现要点**：
-- `AppConfig` 新增可选字段 `cardBackground?: string`（语义：颜色值或 `"transparent"`，缺省视为白色 `#ffffff`）。
-- `parseConfig` 读取 `raw.cardBackground`，缺省给白色。
-- `BookmarkCard.vue` 通过 `useConfigStore().config.cardBackground` 计算卡片背景样式：`transparent` 时透明（保留现有依赖壁纸的观感），其他值作为底色；hover 态逻辑保留或适配。
-- `settings.yaml` 增加注释示例（默认白、可改颜色、可透明）。
+- `BookmarkLink` 新增可选字段 `background?: string`（语义：颜色值或 `"transparent"`，缺省白色 `#ffffff`）。注意与顶层 `background`（壁纸）同名不同层级、互不冲突。
+- `parseConfig` / `parseChildren` 读取 `o.background` 透传到 `BookmarkLink`。
+- `BookmarkCard.vue`：
+  - 外层 `.bookmark-card` 去除所有可见背景与 box-shadow，仅承载布局/文字。
+  - 内层图标容器（`.bookmark-card__icon`，64×64、圆角 16px）作为「磁贴」承载 `link.background`。
+  - `transparent` 态：容器背景 + 阴影全部去除，仅显示 `BaseIcon`；非透明态：以配置色作底、保留默认阴影。
+- `settings.yaml` 增加注释与示例（每条书签项 `background: transparent` / `background: "#xxx"`）。
 
 **验收标准**：
-- 不配置时卡片为白色底；配置颜色生效；配置 `transparent` 时透明。
+- 书签项未配置 `background` 时图标为白色磁贴；配置颜色生效；配置 `transparent` 时只显示图标本身、无任何容器装饰。
 - `npm run build` 通过，类型检查无报错。
 
 ---

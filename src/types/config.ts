@@ -12,6 +12,8 @@ export interface BookmarkLink {
   icon: string
   url: string
   description?: string
+  /** 单条书签的图标背景：颜色值或 `"transparent"`；缺省白色 */
+  background?: string
 }
 
 export interface BookmarkCategory {

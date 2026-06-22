@@ -55,7 +55,7 @@ function toggle() {
   position: absolute;
   top: calc(100% + 12px);
   left: 0;
-  min-width: 140px;
+  width: 180px;
   background: #fff;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);

@@ -4,20 +4,8 @@
       <!-- 引擎下拉：仅在有引擎时显示 -->
       <BaseDropdown v-if="hasEngines" v-model="open" class="search-bar__dropdown" :class="{ open }">
         <template #trigger>
-          <div class="search-bar__trigger">
-            <BaseIcon v-if="currentEngine?.icon" :src="currentEngine.icon" :size="18" />
-            <span class="trigger-name">{{ currentEngine?.name }}</span>
-            <svg
-              class="chevron"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
+          <div class="search-bar__trigger" :title="currentEngine?.name">
+            <BaseIcon v-if="currentEngine?.icon" :src="currentEngine.icon" :size="20" />
           </div>
         </template>
         <EngineOption
@@ -123,8 +111,8 @@ function handleSearch() {
 .search-bar__box {
   display: flex;
   align-items: center;
-  gap: 0;
-  padding: 6px 8px 6px 20px;
+  gap: 8px;
+  padding: 6px 6px 6px 6px;
   transition: all var(--dur-base) var(--ease-out);
 }
 .search-bar__box:focus-within {
@@ -137,35 +125,18 @@ function handleSearch() {
 .search-bar__trigger {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 2px;
-  padding-right: 12px;
+  justify-content: center;
+  width: 40px;
+  height: 36px;
+  padding: 0;
   border-right: 1px solid var(--color-border);
   color: var(--color-text);
+  cursor: pointer;
 }
-.trigger-name {
-  font-size: var(--text-base);
-  font-weight: var(--font-weight-semibold);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 80px;
-}
-.chevron {
-  width: 12px;
-  height: 12px;
-  color: var(--color-text-sub);
-  transition: transform var(--dur-base) var(--ease-out);
-  flex-shrink: 0;
-}
-.search-bar__dropdown.open .chevron {
-  transform: rotate(180deg);
-  color: var(--color-accent);
-}
-
 .search-bar__dropdown {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .search-bar__input {
@@ -174,7 +145,7 @@ function handleSearch() {
   background: transparent;
   font-size: var(--text-lg);
   color: var(--color-text);
-  padding: 8px 12px;
+  padding: 8px 4px 8px 12px;
   min-width: 0;
 }
 .search-bar__input::placeholder {
@@ -197,7 +168,7 @@ function handleSearch() {
   cursor: pointer;
   transition: all var(--dur-fast) var(--ease-out);
   flex-shrink: 0;
-  box-shadow: var(--shadow-accent);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
 }
 .search-bar__btn:hover:not(:disabled) {
   background: var(--color-accent-hover);
@@ -213,14 +184,8 @@ function handleSearch() {
 }
 
 @media (max-width: 600px) {
-  .trigger-name {
-    display: none;
-  }
   .search-bar__trigger {
-    padding-right: 8px;
-  }
-  .chevron {
-    display: none;
+    width: 36px;
   }
 }
 </style>

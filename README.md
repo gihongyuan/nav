@@ -119,3 +119,9 @@ components/business/*  ──►  渲染 SearchBar / CategoryDock / BookmarkGrid
 `parseConfig` 将 yaml「数组嵌套单 key 对象」结构解包为扁平的 `AppConfig`，并通过 `resolveIcon` 统一处理本地/远程图标路径。
 
 ---
+
+## 开发路线图
+
+分阶段开发计划见 [ROADMAP.md](./ROADMAP.md)。
+
+---

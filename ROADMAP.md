@@ -84,7 +84,7 @@
 
 ---
 
-## 阶段四：「全部」分类按点击次数排序 + 点击次数红点
+## 任务四：「全部」分类按点击次数排序 + 点击次数红点
 
 - [ ] 完成
 
@@ -112,3 +112,47 @@
 **验收标准**：
 - 点击书签后刷新页面，「全部」分类中该书签排序上升、右上角红点显示次数。
 - `npm run build` 通过。
+
+---
+
+## 任务五：搜索输入即时过滤书签 + Dock「全部」改为「常用」Top15
+
+- [ ] 完成
+
+**目标**：
+1. 在搜索引擎输入框输入文字但未点击搜索按钮时，输入框下方浮层显示「书签名称包含输入文字」的过滤结果，点击结果项可直接跳转该书签。
+2. Dock 首项由「全部」改为「常用」，仅展示按点击次数倒序排列的前 15 个书签（「全部」分类被替换，不再保留入口）。
+
+**背景**：
+- `src/components/business/SearchBar.vue` 的 `query` 仅在 `handleSearch`（表单提交）时消费，输入过程中无任何建议/过滤浮层；下方需新增绝对定位浮层。
+- `src/stores/config.ts` 中 `ALL_CATEGORY = '全部'` 被 `categories`（首位硬编码注入「全部」项）、`visibleLinks`、默认选中态 `activeCategory` 共用；本阶段将其替换为 `FREQUENT_CATEGORY = '常用'`，语义由「全量扁平化」改为「点击次数倒序 Top15」。
+- `src/components/business/CategoryDock.vue` 直接遍历 `configStore.categories` 渲染，无需改动即可跟随。
+- 点击次数来源依赖**阶段四**新建的 `src/composables/useClickStats.ts`（`getClickCount`）；本阶段需在阶段四落地后实施。
+
+**涉及文件**：
+- `src/components/business/SearchBar.vue`（过滤浮层 UI + `query` 监听 + 结果项点击跳转）
+- `src/components/business/BookmarkCard.vue`（结果项可复用卡片或新建轻量行项）
+- `src/stores/config.ts`（新增 `FREQUENT_CATEGORY` 常量、`categories` 首项改为「常用」、`visibleLinks` 在「常用」态返回 Top15、默认选中态切换）
+- 依赖阶段四：`src/composables/useClickStats.ts`
+
+**实现要点**：
+- **搜索过滤浮层**：
+  - 新增 `computed` 基于 `configStore.allLinks`，按 `link.title` 包含 `query.value.trim()`（大小写不敏感）过滤；`query` trim 后为空则不渲染浮层。
+  - 浮层用绝对定位挂在 `.search-bar` 下方，复用玻璃面板（`BaseGlassPanel`）与 `dd-fade` 过渡风格，`z-index` 高于 dock。
+  - 点击结果项：`window.open(link.url, '_blank', 'noopener,noreferrer')`，随后清空 `query`、隐藏浮层。
+  - 处理失焦与点击的时序：输入框 `@blur` 隐藏浮层会先于结果项 `@click` 触发，需用 `@mousedown.prevent` 阻止失焦，或延迟隐藏（如 `setTimeout`）。
+- **Dock「常用」Top15**：
+  - 新增 `export const FREQUENT_CATEGORY = '常用'`，移除（或保留常量但不再注入 dock）`ALL_CATEGORY` 的 dock 入口。
+  - `categories` computed 首项由「全部」改为「常用」，`children` 为 `allLinks` 按 `getClickCount` 降序取前 15。
+  - `visibleLinks`：当 `activeCategory === FREQUENT_CATEGORY` 时返回该 Top15 列表。
+  - 默认选中态 `activeCategory` 初始值由 `ALL_CATEGORY` 改为 `FREQUENT_CATEGORY`。
+  - 阶段四中针对「全部」分类的排序逻辑随之迁移到「常用」（Top15 即为排序结果的截断）。
+
+**待执行时敲定的细节（建议）**：
+- 过滤结果最大显示数量：建议上限 10 条，超出滚动。
+- 点击次数为 0 时「常用」列表的填充策略：建议按 yaml 顺序补足至 15 条，避免空 dock。
+
+**验收标准**：
+- 在输入框输入文字即时显示名称匹配的书签浮层；点击搜索按钮跳转搜索引擎、点击结果项跳转对应书签并清空输入。
+- Dock 首项显示「常用」，内容为点击次数倒序前 15；点击书签后刷新，「常用」排序与成员随之更新。
+- `npm run build` 通过，类型检查无报错。

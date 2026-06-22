@@ -41,6 +41,28 @@ export default defineConfig({
     fontFamily: {
       sans: 'var(--font-sans)',
     },
+    fontSize: {
+      xs: 'var(--text-xs)',
+      sm: 'var(--text-sm)',
+      base: 'var(--text-base)',
+      lg: 'var(--text-lg)',
+      xl: 'var(--text-xl)',
+      display: 'var(--text-display)',
+    },
+    fontWeight: {
+      light: 'var(--font-weight-light)',
+      regular: 'var(--font-weight-regular)',
+      medium: 'var(--font-weight-medium)',
+      semibold: 'var(--font-weight-semibold)',
+    },
+    lineHeight: {
+      none: 'var(--leading-none)',
+      tight: 'var(--leading-tight)',
+      normal: 'var(--leading-normal)',
+    },
+    letterSpacing: {
+      tight: 'var(--tracking-tight)',
+    },
   },
   shortcuts: {
     'glass-panel': 'bg-surface backdrop-blur-md border border-border shadow-1',

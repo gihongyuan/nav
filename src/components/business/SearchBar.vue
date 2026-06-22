@@ -144,8 +144,8 @@ function handleSearch() {
   color: var(--color-text);
 }
 .trigger-name {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -172,7 +172,7 @@ function handleSearch() {
   flex: 1;
   border: none;
   background: transparent;
-  font-size: 16px;
+  font-size: var(--text-lg);
   color: var(--color-text);
   padding: 8px 12px;
   min-width: 0;

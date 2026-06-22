@@ -26,7 +26,7 @@ defineProps<{
   text-align: center;
   padding: 30px;
   color: var(--color-text-on-image);
-  font-size: 14px;
+  font-size: var(--text-base);
   background: rgba(0, 0, 0, 0.3);
   border-radius: var(--radius-md);
   border: 1px solid rgba(255, 255, 255, 0.2);

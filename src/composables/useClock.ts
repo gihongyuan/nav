@@ -43,9 +43,12 @@ const dateFmt = new Intl.DateTimeFormat('zh-CN', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
+})
+const weekdayFmt = new Intl.DateTimeFormat('zh-CN', {
   weekday: 'long',
 })
 
 function format(d: Date, kind: 'time' | 'date'): string {
-  return kind === 'time' ? timeFmt.format(d) : dateFmt.format(d)
+  if (kind === 'time') return timeFmt.format(d)
+  return `${dateFmt.format(d)} ${weekdayFmt.format(d)}`
 }

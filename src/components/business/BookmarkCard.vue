@@ -53,7 +53,7 @@ defineProps<{
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: var(--text-xl);
   transition: all var(--dur-fast) var(--ease-out);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   color: #fff;
@@ -64,9 +64,9 @@ defineProps<{
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 .bookmark-card__title {
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.3;
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--leading-tight);
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;

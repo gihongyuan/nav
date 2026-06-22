@@ -59,7 +59,7 @@ function onError() {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  line-height: 1;
+  line-height: var(--leading-none);
 }
 .base-icon--image {
   object-fit: contain;

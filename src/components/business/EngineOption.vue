@@ -34,8 +34,8 @@ defineEmits<{
   padding: 8px 10px;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-medium);
   color: var(--color-text);
   transition: background var(--dur-fast);
 }
@@ -44,7 +44,7 @@ defineEmits<{
 }
 .engine-option.active {
   color: var(--color-accent);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 .engine-option__icon {
   flex-shrink: 0;
@@ -52,7 +52,7 @@ defineEmits<{
 }
 .engine-option__check {
   margin-left: auto;
-  font-size: 11px;
+  font-size: var(--text-xs);
   color: var(--color-accent);
 }
 </style>

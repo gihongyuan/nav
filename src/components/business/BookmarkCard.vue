@@ -5,9 +5,11 @@
     target="_blank"
     rel="noopener noreferrer"
     :title="link.description ?? link.title"
+    @click="handleClick"
   >
     <div class="bookmark-card__icon" :class="{ 'is-glass': isTransparent }" :style="iconStyle">
       <BaseIcon :src="link.icon" :size="28" />
+      <span v-if="clickCount > 0" class="bookmark-card__badge">{{ badgeLabel }}</span>
     </div>
     <div class="bookmark-card__title">{{ link.title }}</div>
   </a>
@@ -17,6 +19,7 @@
 import { computed } from 'vue'
 import type { BookmarkLink } from '@/types/config'
 import { BaseIcon } from '@/components/base'
+import { useClickStats } from '@/composables/useClickStats'
 
 const props = defineProps<{
   link: BookmarkLink
@@ -34,6 +37,19 @@ const isTransparent = computed(() => {
 const iconStyle = computed(() =>
   isTransparent.value ? {} : { background: effectiveBg.value },
 )
+
+const { recordClick, getClickCount } = useClickStats()
+const clickCount = computed(() => getClickCount(props.link.url))
+/** 红点上限文案 —— 超过 99 显示 99+ 防止气泡被撑大 */
+const badgeLabel = computed(() => (clickCount.value > 99 ? '99+' : String(clickCount.value)))
+
+/**
+ * 点击拦截：仅写计数，不 preventDefault —— 浏览器照常按 target="_blank" 新标签打开，
+ * 不破坏原生行为（中键、Ctrl+Click、右键菜单都仍由浏览器接管）。
+ */
+function handleClick() {
+  recordClick(props.link.url)
+}
 </script>
 
 <style scoped>
@@ -56,6 +72,7 @@ const iconStyle = computed(() =>
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 .bookmark-card__icon {
+  position: relative;
   width: 64px;
   height: 64px;
   border-radius: 16px;
@@ -79,6 +96,26 @@ const iconStyle = computed(() =>
 .bookmark-card:hover .bookmark-card__icon.is-glass {
   background: transparent;
   box-shadow: none;
+}
+/* 点击次数红点：克制低饱和、小尺寸、右上角溢出磁贴边缘 */
+.bookmark-card__badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--radius-pill);
+  background: #e25c5c;
+  color: #fff;
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+  line-height: 18px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  /* 透明态下磁贴本身没有阴影，给红点单独加一层 outline 保持可读 */
+  outline: 2px solid rgba(255, 255, 255, 0.25);
 }
 .bookmark-card__title {
   font-size: var(--text-sm);

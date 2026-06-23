@@ -41,7 +41,7 @@ export const useConfigStore = defineStore('config', () => {
   const categories = computed<BookmarkCategory[]>(() => {
     const frequent: BookmarkCategory = {
       name: FREQUENT_CATEGORY,
-      icon: resolveIcon('./icons/all.svg'),
+      icon: resolveIcon('./icons/All.svg'),
       children: frequentLinks.value,
     }
     return [frequent, ...config.value.urls]

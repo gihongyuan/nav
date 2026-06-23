@@ -1,42 +1,382 @@
 # 配置文件
 title: 导航
-icon: /icons/navigation.svg
+icon: /icons/Navigation.svg
 background: /background.jpeg
+
 # 搜索引擎
 search:
   - Baidu:
       name: Baidu
       url: https://www.baidu.com/s?wd={query}
-      icon: /icons/baidu.svg
-
+      icon: /icons/Baidu.svg
   - Google:
       name: Google
       url: https://www.google.com/search?q={query}
-      icon: /icons/google.svg
+      icon: /icons/Google.svg
+  - Bing:
+      name: Bing
+      url: https://www.bing.com/search?q={query}
+      icon: /icons/Bing.svg
+  - Docker Hub:
+      name: Docker Hub
+      url: https://hub.docker.com/search?q={query}
+      icon: /icons/Docker.svg  
 
 # 链接
 # 单条书签可选 background 字段：缺省白色，可设任意颜色或 transparent（仅显示图标）
 urls:
-  - 搜索引擎:
-      icon: /icons/search.svg
+  - 搜索:
+      icon: /icons/type/Search.svg
       children:
         - 百度:
-            icon: /icons/baidu.svg
+            icon: /icons/Baidu.svg
             url: https://www.baidu.com/
-            description: 百度搜索
+            description: ""
         - Google:
-            icon: /icons/google.svg
+            icon: /icons/Google.svg
             url: https://www.google.com.hk/
-            description: Google 搜索
+            description: ""
+
+  - AI:
+      icon: /icons/type/AI.svg
+      children:
+        - LobeChat:
+            icon: /icons/Lobechat.png
+            url: http://192.168.97.4:3210/
+            background: transparent
+            description: ""
+        - 豆包:
+            icon: /icons/豆包.svg
+            url: https://www.doubao.com/chat/
+            background: transparent
+            description: ""
+        - DeepSeek:
+            icon: /icons/Deepseek.svg
+            url: https://www.deepseek.com/
+            description: DeepSeek
+        - ChatGPT:
+            icon: /icons/ChatGPT.svg
+            url: https://chatgpt.com/
+            background: transparent
+            description: ""
+        - Gemini:
+            icon: /icons/Gemini.svg
+            url: https://gemini.google.com/app
+            description: ""
+        - MIMO:
+            icon: /icons/MIMO.png
+            url: https://platform.xiaomimimo.com/
+            background: transparent
+            description: ""
+        - OpenRouter:
+            icon: /icons/OpenRouter.svg
+            url: https://openrouter.ai/
+            description: ""
+        - 火山引擎:
+            icon: /icons/火山引擎.svg
+            url: https://www.volcengine.com/
+            description: ""
+        - 阿里百炼:
+            icon: /icons/阿里百炼.svg
+            url: https://www.aliyun.com/product/bailian/
+            description: ""
+        - Aizex API:
+            icon: /icons/newApi.png
+            url: https://aizex.top/
+            description: Aizex API
+        - 302.ai:
+            icon: /icons/302.webp
+            url: https://302.ai/
+            background: transparent
+            description: ""
+
+  - 视频:
+      icon: /icons/type/Video.svg
+      children:
+        - 哔哩哔哩:
+            icon: /icons/哔哩哔哩.svg
+            url: http://www.bilibili.com/
+            description: ""
+        - YouTube:
+            icon: /icons/Youtube.svg
+            url: https://www.youtube.com/
+            description: ""
+        - TikTok:
+            icon: /icons/TikTok.svg
+            url: https://www.tiktok.com/en/
+            description: ""
+        - 网易公开课:
+            icon: /icons/网易公开课.svg
+            url: https://open.163.com/
+            description: ""
+
+  - 管理:
+      icon: /icons/type/Manager.svg
+      children:
+        - 群晖:
+            icon: /icons/群晖.svg
+            url: https://192.168.31.8:5001/
+            background: transparent
+            description: ""
+        - PVE:
+            icon: /icons/PVE.png
+            url: https://192.168.31.3:8006/
+            background: transparent
+            description: ""
+        - Casdoor:
+            icon: /icons/Casdoor.png
+            url: http://192.168.97.2:8000/
+            description: ""
+        - Bitwarden:
+            icon: /icons/Bitwarden.png
+            url: https://192.168.97.2:18443/#/
+            description: ""
+        - GitLab:
+            icon: /icons/GitLab.svg
+            url: http://192.168.97.3:8006/
+            background: transparent
+            description: ""
+        - Immich:
+            icon: /icons/Immich.png
+            url: http://192.168.97.3:2283/
+            background: transparent
+            description: ""
+
+  - 应用:
+      icon: /icons/type/Server.svg
+      children:
+        - Outline:
+            icon: /icons/Outline.png
+            url: https://192.168.97.2:13443/
+            background: transparent
+            description: ""
+        - Home Assistant:
+            icon: /icons/HomeAssistant.svg
+            url: http://192.168.97.3:8123/
+            description: ""
+        - NocoDB:
+            icon: /icons/NocoDB.ico
+            url: http://192.168.97.3:8005/
+            background: transparent
+            description: ""
+        - Dify:
+            icon: /icons/Dify.svg
+            url: http://192.168.97.5/
+            description: ""
+        - N8N:
+            icon: /icons/N8N.png
+            url: https://192.168.97.2:15678/
+            background: transparent
+            description: ""
+        - Karakeep:
+            icon: /icons/Karakeep.ico
+            url: http://192.168.97.3:3000/
+            description: ""
+        - Firefly III:
+            icon: /icons/FireflyIII.png
+            url: http://192.168.97.3:8003/
+            background: transparent
+            description: ""
+        - ezBookkeeping:
+            icon: /icons/ezBookkeeping.ico
+            url: http://192.168.97.3:8009/
+            background: transparent
+            description: ""
+
+  - 网络:
+      icon: /icons/type/Network.svg
+      children:
+        - NPM:
+            icon: /icons/NPM.png
+            url: http://192.168.97.2:81/
+            description: ""
+        - OpenWrt - 如城:
+            icon: /icons/OpenWrt.svg
+            url: http://192.168.94.1/
+            description: ""
+        - OpenWrt - 何庄:
+            icon: /icons/OpenWrt.svg
+            url: http://192.168.95.1/
+            description: ""
+        - 京东云无线宝 - 何庄:
+            icon: /icons/京东云无线宝.svg
+            url: http://192.168.68.1
+            description: ""
+        - AX3000T - 中航:
+            icon: /icons/OpenWrt.svg
+            url: http://192.168.31.1/
+            description: ""
+        - iKuai - 中航:
+            icon: /icons/iKuai.svg
+            url: http://192.168.31.2/
+            background: transparent
+            description: ""
+
+  - 社交:
+      icon: /icons/type/Social.svg
+      children:
+        - Twitter:
+            icon: /icons/Twitter.png
+            url: https://twitter.com/
+            description: ""
+        - Facebook:
+            icon: /icons/Facebook.svg
+            url: https://www.facebook.com/
+            background: transparent
+            description: ""
+        - Flickr:
+            icon: /icons/Flickr.svg
+            url: https://www.flickr.com/
+            description: ""
+        - Pinterest:
+            icon: /icons/Pinterest.png
+            url: https://www.pinterest.com/
+            description: ""
+        - Instagram:
+            icon: /icons/Instagram.png
+            url: https://www.instagram.com/
+            background: transparent
+            description: ""
+        - Discord:
+            icon: /icons/Discord.png
+            url: https://discord.com/channels/@me
+            description: ""
+        - Telegram:
+            icon: /icons/Telegram.png
+            url: https://telegram.org/
+            background: transparent
+            description: ""
+
+  - 图书:
+      icon: /icons/type/Book.svg
+      children:
+        - 京东读书:
+            icon: /icons/京东读书.svg
+            url: https://ebooks.jd.com/
+            description: ""
+        - Z-Library:
+            icon: /icons/Z-Library.png
+            url: https://z-lib.io/
+            background: transparent
+            description: ""
+        - 安娜的档案:
+            icon: /icons/安娜的档案.png
+            url: https://zh.annas-archive.org/
+            background: transparent
+            description: ""
+        - iReader:
+            icon: /icons/iReader.svg
+            url: http://192.168.96.148:10123/
+            background: transparent
+            description: ""
+
+  - 论坛:
+      icon: /icons/type/Forum.svg
+      children:
+        - 百度贴吧:
+            icon: /icons/百度贴吧.svg
+            url: https://tieba.baidu.com
+            description: ""
+        - 知乎:
+            icon: /icons/知乎.svg
+            url: http://www.zhihu.com/
+            description: ""
+        - NGA:
+            icon: /icons/NGA.svg
+            url: https://nga.178.com/
+            background: transparent
+            description: ""
+        - 步行街:
+            icon: /icons/步行街.svg
+            url: http://bbs.hupu.com/bxj
+            description: ""
+        - Quora:
+            icon: /icons/Quora.svg
+            url: https://www.quora.com/
+            background: transparent
+            description: ""
+        - Reddit:
+            icon: /icons/Reddit.svg
+            url: https://www.reddit.com/
+            description: ""
+        - 恩山无线论坛:
+            icon: /icons/恩山无线论坛.svg
+            url: https://www.right.com.cn/forum/
+            background: transparent
+            description: ""
+        - Thingiverse:
+            icon: /icons/Thingiverse.svg
+            url: https://www.thingiverse.com/
+            description: ""
+
+  - 云服务:
+      icon: /icons/type/Cloud.svg
+      children:
+        - Cloudflare:
+            icon: /icons/Cloudflare.svg
+            url: https://www.cloudflare.com/zh-cn/
+            description: ""
+        - Slack:
+            icon: /icons/Slack.svg
+            url: https://api.slack.com/
+            description: ""
+        - Vultr:
+            icon: /icons/Vultr.svg
+            url: https://www.vultr.com/
+            description: ""
+        - 阿里云:
+            icon: /icons/阿里云.svg
+            url: https://account.aliyun.com/
+            description: ""
+        - 华为云:
+            icon: /icons/华为云.svg
+            url: https://www.huaweicloud.com/
+            description: ""
+        - 贝锐:
+            icon: /icons/贝锐.ico
+            url: https://www.oray.com/
+            description: ""
 
   - 邮箱:
-      icon: /icons/email.svg
+      icon: /icons/type/Email.svg
       children:
         - 163邮箱:
-            icon: /icons/163.svg
+            icon: /icons/163邮箱.svg
             url: https://mail.163.com/
-            description: 网易 163 邮箱
+            description: ""
+        - 126邮箱:
+            icon: /icons/126邮箱.svg
+            url: https://mail.126.com/
+            description: ""
+        - QQ邮箱:
+            icon: /icons/QQ邮箱.svg
+            url: https://mail.qq.com/
+            description: ""
         - 谷歌邮箱:
-            icon: /icons/gmail.svg
+            icon: /icons/Gmail.svg
             url: http://gmail.google.com/
-            description: Gmail 邮箱
+            description: ""
+
+  - VPN:
+      icon: /icons/type/VPN.svg
+      children:
+        - 可莉:
+            icon: /icons/type/VPN.svg
+            url: https://3.kle.tw/
+            description: ""
+        - 三月七:
+            icon: /icons/type/VPN.svg
+            url: https://三月七.com/
+            description: ""
+        - iKuuuu:
+            icon: /icons/type/VPN.svg
+            url: https://ikuuu.one/
+            description: ""
+        - nanoPort:
+            icon: /icons/type/VPN.svg
+            url: https://v2.nanoport.xyz/
+            description: ""
+        - 魔戒:
+            icon: /icons/type/VPN.svg
+            url: https://mojie.best/
+            description: ""

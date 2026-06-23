@@ -1,7 +1,7 @@
 <template>
   <div class="grid">
     <BookmarkCard v-for="link in links" :key="link.url" :link="link" />
-    <div v-if="links.length === 0" class="grid__empty">当前分类暂无书签</div>
+    <div v-if="links.length === 0" class="grid__empty">{{ emptyHint ?? '当前分类暂无书签' }}</div>
   </div>
 </template>
 
@@ -11,6 +11,8 @@ import BookmarkCard from './BookmarkCard.vue'
 
 defineProps<{
   links: BookmarkLink[]
+  /** 列表为空时显示的提示文案；缺省「当前分类暂无书签」 */
+  emptyHint?: string
 }>()
 </script>
 

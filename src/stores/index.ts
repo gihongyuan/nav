@@ -1,1 +1,1 @@
-export { useConfigStore, ALL_CATEGORY } from './config'
+export { useConfigStore, ALL_CATEGORY, FREQUENT_CATEGORY } from './config'

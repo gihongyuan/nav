@@ -27,7 +27,7 @@
         autocomplete="off"
         :disabled="!hasEngines"
         @focus="setFocused(true)"
-        @blur="setFocused(false)"
+        @blur="onBlur"
       />
 
       <button
@@ -60,10 +60,10 @@ import { useSearchFocus } from '@/composables'
 import { useConfigStore } from '@/stores'
 
 const configStore = useConfigStore()
-const { setFocused } = useSearchFocus()
+/** query 由 useSearchFocus 全局共享 —— HomeView 据此切换卡片区为过滤态 */
+const { query, setFocused, reset } = useSearchFocus()
 
 const open = ref(false)
-const query = ref('')
 const inputRef = ref<HTMLInputElement | null>(null)
 
 const engines = computed(() => configStore.searchEngines)
@@ -97,7 +97,17 @@ function handleSearch() {
   if (!q || !engine) return
   const url = engine.url.replace('{query}', encodeURIComponent(q))
   window.open(url, '_blank', 'noopener,noreferrer')
-  query.value = ''
+  reset()
+  inputRef.value?.blur()
+}
+
+/**
+ * 失焦延迟 200ms 处理 —— 用户点击下方过滤后的卡片时，blur 会比 click 先触发，
+ * 立即收起会让卡片网格在 click 命中前重渲染丢失目标；延迟至 click 完成后再收起。
+ * 失焦即视为搜索意图结束，一并清空 query 让卡片区恢复到当前分类视图。
+ */
+function onBlur() {
+  setTimeout(() => reset(), 200)
 }
 </script>
 

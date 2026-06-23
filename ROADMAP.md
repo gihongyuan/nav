@@ -117,44 +117,54 @@
 
 ---
 
-## 任务五：搜索输入即时过滤书签 + Dock「全部」改为「常用」Top15
+## 任务五：搜索输入即时过滤书签 + Dock「全部」改为「常用」Top12
 
-- [ ] 完成
+- [x] 完成
 
 **目标**：
-1. 在搜索引擎输入框输入文字但未点击搜索按钮时，输入框下方浮层显示「书签名称包含输入文字」的过滤结果，点击结果项可直接跳转该书签。
-2. Dock 首项由「全部」改为「常用」，仅展示按点击次数倒序排列的前 15 个书签（「全部」分类被替换，不再保留入口）。
+1. 输入框聚焦时，dock 与卡片区一同隐藏；在输入框中输入文字，**原卡片区**就地切换为「按名称匹配的全部书签」过滤视图，点击结果项可直接跳转该书签。
+2. Dock 首项由「全部」改为「常用」，仅展示按点击次数倒序排列的前 12 个书签（「全部」分类被替换，不再保留入口）。
 
 **背景**：
-- `src/components/business/SearchBar.vue` 的 `query` 仅在 `handleSearch`（表单提交）时消费，输入过程中无任何建议/过滤浮层；下方需新增绝对定位浮层。
-- `src/stores/config.ts` 中 `ALL_CATEGORY = '全部'` 被 `categories`（首位硬编码注入「全部」项）、`visibleLinks`、默认选中态 `activeCategory` 共用；本阶段将其替换为 `FREQUENT_CATEGORY = '常用'`，语义由「全量扁平化」改为「点击次数倒序 Top15」。
+- `src/components/business/SearchBar.vue` 的 `query` 原本仅在 `handleSearch`（表单提交）时消费，输入过程中无任何过滤反馈；本阶段将 `query` 提升到全局共享，供 `HomeView` 切换卡片区使用，**不**新增独立浮层。
+- `src/composables/useSearchFocus.ts` 原只承载 `focused`（驱动壁纸模糊）；本阶段扩展为同时承载 `query`、`trimmedQuery`、`searching = focused && trimmedQuery !== ''` 与 `reset()`，作为跨组件协作的单点状态源。
+- `src/stores/config.ts` 中 `ALL_CATEGORY = '全部'` 被 `categories`（首位硬编码注入「全部」项）、`visibleLinks`、默认选中态 `activeCategory` 共用；本阶段新增 `FREQUENT_CATEGORY = '常用'` 与 `FREQUENT_LIMIT = 12`，常量 `ALL_CATEGORY` 保留供外部引用但 dock 不再注入入口。
 - `src/components/business/CategoryDock.vue` 直接遍历 `configStore.categories` 渲染，无需改动即可跟随。
 - 点击次数来源依赖**阶段四**新建的 `src/composables/useClickStats.ts`（`getClickCount`）；本阶段需在阶段四落地后实施。
 
 **涉及文件**：
-- `src/components/business/SearchBar.vue`（过滤浮层 UI + `query` 监听 + 结果项点击跳转）
-- `src/components/business/BookmarkCard.vue`（结果项可复用卡片或新建轻量行项）
-- `src/stores/config.ts`（新增 `FREQUENT_CATEGORY` 常量、`categories` 首项改为「常用」、`visibleLinks` 在「常用」态返回 Top15、默认选中态切换）
+- `src/composables/useSearchFocus.ts`（扩展为全局 `query`/`searching`/`reset` 状态源）
+- `src/components/business/SearchBar.vue`（`v-model` 绑定全局 `query`、提交/失焦后 `reset` 收尾）
+- `src/views/HomeView.vue`（按 `focused`/`searching` 三态切换卡片区；聚焦时 `v-show` 收起 dock）
+- `src/components/business/BookmarkGrid.vue`（新增 `emptyHint` prop 承接过滤空态文案）
+- `src/stores/config.ts`（`FREQUENT_CATEGORY` + `FREQUENT_LIMIT` 常量、`categories` 首项改为「常用」、`visibleLinks` 在「常用」态返回 Top12、默认选中态切换、`allLinks` 暴露给 HomeView 用于过滤）
+- `src/stores/index.ts`（导出 `FREQUENT_CATEGORY`）
 - 依赖阶段四：`src/composables/useClickStats.ts`
 
 **实现要点**：
-- **搜索过滤浮层**：
-  - 新增 `computed` 基于 `configStore.allLinks`，按 `link.title` 包含 `query.value.trim()`（大小写不敏感）过滤；`query` trim 后为空则不渲染浮层。
-  - 浮层用绝对定位挂在 `.search-bar` 下方，复用玻璃面板（`BaseGlassPanel`）与 `dd-fade` 过渡风格，`z-index` 高于 dock。
-  - 点击结果项：`window.open(link.url, '_blank', 'noopener,noreferrer')`，随后清空 `query`、隐藏浮层。
-  - 处理失焦与点击的时序：输入框 `@blur` 隐藏浮层会先于结果项 `@click` 触发，需用 `@mousedown.prevent` 阻止失焦，或延迟隐藏（如 `setTimeout`）。
-- **Dock「常用」Top15**：
-  - 新增 `export const FREQUENT_CATEGORY = '常用'`，移除（或保留常量但不再注入 dock）`ALL_CATEGORY` 的 dock 入口。
-  - `categories` computed 首项由「全部」改为「常用」，`children` 为 `allLinks` 按 `getClickCount` 降序取前 15。
-  - `visibleLinks`：当 `activeCategory === FREQUENT_CATEGORY` 时返回该 Top15 列表。
+- **搜索即时过滤（就地替换卡片区，不弹浮层）**：
+  - `useSearchFocus` 升级为「全局 query + focused」单点：暴露 `focused`、`query`、`trimmedQuery`、`searching`、`reset()`。
+  - `SearchBar` 的 `v-model` 绑定全局 `query`；`@focus` → `setFocused(true)`；`@blur` 走 `onBlur`，延迟 200ms 调用 `reset()`（避免点击下方过滤后卡片时 mousedown→blur→DOM 重渲染让 click 丢失目标）；`handleSearch` 跳转后同样 `reset()` + 显式 `blur` 输入框。
+  - `HomeView` 卡片区三态：
+    - `!focused` → 显示当前分类的 `visibleLinks`；
+    - `focused && !searching`（聚焦但输入为空） → 整个 grid 隐藏，让用户专注输入；
+    - `searching` → 在原卡片区域显示 `allLinks` 按 title 大小写不敏感包含过滤的全集，不设上限（由 `home__content` 原生滚动承接）。
+    - 空匹配时通过 `BookmarkGrid` 的 `emptyHint` prop 显示「没有匹配「query」的书签」。
+  - 聚焦时 `CategoryDock` 通过 `v-show="!focused"` 整体隐藏。
+- **Dock「常用」Top12**：
+  - 新增 `export const FREQUENT_CATEGORY = '常用'`、模块内 `FREQUENT_LIMIT = 12`；常量 `ALL_CATEGORY` 保留但不注入 dock。
+  - `sortedAllLinks` computed 集中承载「按 `getClickCount` 降序、稳定保留 yaml 原序」的排序逻辑；`frequentLinks = sortedAllLinks.slice(0, FREQUENT_LIMIT)`。
+  - `categories` computed 首项由「全部」改为「常用」，`children` 为 `frequentLinks`。
+  - `visibleLinks`：当 `activeCategory === FREQUENT_CATEGORY` 时返回 `frequentLinks`；`ALL_CATEGORY` 态（保留可达入口）返回 `sortedAllLinks`。
   - 默认选中态 `activeCategory` 初始值由 `ALL_CATEGORY` 改为 `FREQUENT_CATEGORY`。
-  - 阶段四中针对「全部」分类的排序逻辑随之迁移到「常用」（Top15 即为排序结果的截断）。
 
-**待执行时敲定的细节（建议）**：
-- 过滤结果最大显示数量：建议上限 10 条，超出滚动。
-- 点击次数为 0 时「常用」列表的填充策略：建议按 yaml 顺序补足至 15 条，避免空 dock。
+**待执行时敲定的细节（建议 / 已落地）**：
+- 输入聚焦但 query 为空：卡片区**完全隐藏**（而非显示原分类），以避免与「聚焦准备搜索」的语义冲突。
+- 过滤结果无上限：既然占据整个卡片区，由原生滚动承接超长情况。
+- 失焦时序：用 `setTimeout(200ms)` 延迟 `reset()`，覆盖点击下方卡片的 mousedown→blur→click 序列。
+- 点击次数为 0 时「常用」列表的填充策略：稳定排序保留 yaml 原序，自然按 yaml 顺序补足至 12 条，避免空 dock。
 
 **验收标准**：
-- 在输入框输入文字即时显示名称匹配的书签浮层；点击搜索按钮跳转搜索引擎、点击结果项跳转对应书签并清空输入。
-- Dock 首项显示「常用」，内容为点击次数倒序前 15；点击书签后刷新，「常用」排序与成员随之更新。
+- 点击搜索框 → 卡片区与 dock 一起消失；输入文字 → 卡片区原位显示按名称匹配的全集书签，可直接点击跳转。
+- Dock 首项显示「常用」，内容为点击次数倒序前 12；点击书签后刷新，「常用」排序与成员随之更新。
 - `npm run build` 通过，类型检查无报错。

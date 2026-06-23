@@ -8,7 +8,11 @@
     @click="handleClick"
   >
     <div class="bookmark-card__icon" :class="{ 'is-glass': isTransparent }" :style="iconStyle">
-      <BaseIcon :src="link.icon" :size="28" />
+      <BaseIcon
+        class="bookmark-card__icon-img"
+        :src="link.icon"
+        :size="isTransparent ? 56 : 36"
+      />
       <span v-if="clickCount > 0" class="bookmark-card__badge">{{ badgeLabel }}</span>
     </div>
     <div class="bookmark-card__title">{{ link.title }}</div>
@@ -83,6 +87,11 @@ function handleClick() {
   transition: all var(--dur-fast) var(--ease-out);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   color: var(--color-text);
+}
+/* inline 模式：图标 36/64 ≈ 56%，磁贴四周留出 ~14px 呼吸量 */
+.bookmark-card__icon:not(.is-glass) .bookmark-card__icon-img {
+  width: 56%;
+  height: 56%;
 }
 /* 透明态：完全去除容器装饰，只显示图标本身 */
 .bookmark-card__icon.is-glass {

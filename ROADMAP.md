@@ -168,3 +168,37 @@
 - 点击搜索框 → 卡片区与 dock 一起消失；输入文字 → 卡片区原位显示按名称匹配的全集书签，可直接点击跳转。
 - Dock 首项显示「常用」，内容为点击次数倒序前 12；点击书签后刷新，「常用」排序与成员随之更新。
 - `npm run build` 通过，类型检查无报错。
+
+---
+
+## 任务六：书签卡片图标尺寸与卡片区滚动条修复
+
+- [x] 完成
+
+**目标**：
+1. 书签图标在磁贴中视觉权重更稳：内联（白底/彩底）模式图标更大但留出呼吸量；透明模式（无磁贴）图标进一步加大以补足缺失的容器衬托。
+2. 修复常规两行书签态出现"空"竖滚动条的视觉瑕疵。
+
+**背景**：
+- `src/components/business/BookmarkCard.vue` 原 `BaseIcon` 固定传 `size: 28`，在 64×64 磁贴中显得过小、视觉不平衡；后续放大为 36（内联）/ 56（透明），并通过百分比让 `<img>` 撑满。
+- 一度尝试给 `.bookmark-card__icon` 加 `overflow: hidden` 让圆角裁切贴边图标，但红点（`top/right: -4px` 溢出磁贴外圈）被裁掉；图标收回 36px 后已不会贴边，遂移除该裁切。
+- `src/views/HomeView.vue` 的 `.home__content` 同时具有 `flex:1`、`overflow-y:auto` 和 `padding-bottom: 20px`；两行书签的常规态下，自身的 20px 内边距把 scrollHeight 顶得比 clientHeight 多几像素，于是出现一根"空"滚动条。父级 `.home__container` 已有 `padding: 48px 20px 120px 20px`，底部 120px 已经给 fixed 定位的 dock 让位充分，无需再叠 20px。
+
+**涉及文件**：
+- `src/components/business/BookmarkCard.vue`
+- `src/views/HomeView.vue`
+
+**实现要点**：
+- `BookmarkCard.vue`：
+  - `BaseIcon` 的 `:size` 改为按模式分流：内联模式 36、透明模式 56；不再走原来的 28/40。
+  - 新增类 `bookmark-card__icon-img`，在 `:not(.is-glass)` 下设 `width/height: 56%`（36/64 ≈ 56%），让磁贴四周保留 ~14px 呼吸量。
+  - 不在磁贴容器上加 `overflow: hidden`，避免裁掉右上角红点；图标已收到 36px、不会越界。
+- `HomeView.vue`：
+  - `.home__content` 移除 `padding-bottom: 20px`（父级 `.home__container` 的 120px 底部内边距已覆盖 dock 让位需求）。
+  - 加 `min-height: 0`（flex 子项标准防溢出），保留 `flex:1 + overflow-y:auto` 以承接搜索过滤结果的超长滚动。
+
+**验收标准**：
+- 内联模式书签图标比改造前更显著，但与磁贴边沿留出可见呼吸量；透明模式图标更大、与带磁贴卡片视觉权重对齐。
+- 计数红点仍在磁贴右上角溢出显示，未被裁切。
+- 仅有两行书签时，卡片区无任何滚动条；搜索结果数量超过可视区时滚动条仍可用。
+- `npm run build` 通过，类型检查无报错。

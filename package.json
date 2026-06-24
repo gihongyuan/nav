@@ -6,10 +6,11 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vue-tsc -b && vite build",
-    "preview": "vite preview",
+    "preview": "npm run build && wrangler dev",
     "lint": "eslint . --ext .ts,.vue --fix",
     "format": "prettier --write \"src/**/*.{ts,vue,css}\"",
-    "test": "vitest"
+    "test": "vitest",
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "@vueuse/core": "^14.3.0",
@@ -19,6 +20,7 @@
     "vue-router": "^5.1.0"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.42.2",
     "@eslint/js": "^10.0.1",
     "@iconify-json/tabler": "^1.2.35",
     "@rollup/plugin-yaml": "^5.0.0",
@@ -38,6 +40,7 @@
     "unocss": "^66.7.2",
     "vite": "^8.0.12",
     "vitest": "^4.1.9",
-    "vue-tsc": "^3.2.8"
+    "vue-tsc": "^3.2.8",
+    "wrangler": "^4.104.0"
   }
 }

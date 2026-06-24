@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { BaseGlassPanel, BaseDropdown, BaseIcon } from '@/components/base'
 import EngineOption from './EngineOption.vue'
 import { useSearchFocus } from '@/composables'
@@ -72,13 +72,49 @@ const hasEngines = computed(() => engines.value.length > 0)
 /**
  * 仅存「当前选中的引擎名」；具体的 SearchEngine 对象用 computed 派生，
  * 这样 yaml 增删改后会自动跟随，而不会保留过期对象引用。
+ *
+ * 初始值从 localStorage 读取上次选择；读取/解析失败静默降级到 null，
+ * 走到 computed 的回退逻辑（engines[0]），保证刷新后能恢复用户偏好。
  */
-const selectedName = ref<string | null>(null)
+const STORAGE_KEY = 'nav:search-engine'
+
+function loadSelectedName(): string | null {
+  if (typeof window === 'undefined') return null
+  try {
+    return window.localStorage.getItem(STORAGE_KEY)
+  } catch {
+    return null
+  }
+}
+
+function persistSelectedName(name: string | null) {
+  if (typeof window === 'undefined') return
+  try {
+    if (name) window.localStorage.setItem(STORAGE_KEY, name)
+    else window.localStorage.removeItem(STORAGE_KEY)
+  } catch {
+    // 配额超限/隐私模式：放弃持久化，内存态依然可用
+  }
+}
+
+const selectedName = ref<string | null>(loadSelectedName())
 
 const currentEngine = computed(() => {
   if (!hasEngines.value) return null
   return engines.value.find((e) => e.name === selectedName.value) ?? engines.value[0]
 })
+
+/**
+ * 跟随 currentEngine 落盘 —— 覆盖两种情形：
+ *  1) 用户切换引擎（selectedName 直接变化）；
+ *  2) yaml 删除了原引擎、回退到 engines[0]（此时 selectedName 不变但 currentEngine 变）。
+ * 后者写回当前实际生效的引擎名，避免下次刷新仍解析到一个已删除的旧名字。
+ */
+watch(
+  currentEngine,
+  (eng) => persistSelectedName(eng?.name ?? null),
+  { immediate: true },
+)
 
 const placeholder = computed(() => {
   if (!hasEngines.value) return '未配置搜索引擎'

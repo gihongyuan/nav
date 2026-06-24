@@ -202,3 +202,30 @@
 - 计数红点仍在磁贴右上角溢出显示，未被裁切。
 - 仅有两行书签时，卡片区无任何滚动条；搜索结果数量超过可视区时滚动条仍可用。
 - `npm run build` 通过，类型检查无报错。
+
+---
+
+## 任务七：搜索引擎选择持久化到 localStorage
+
+- [x] 完成
+
+**目标**：用户切换搜索引擎（如选择「谷歌」）后，刷新页面仍保留该选择，而不是每次回到 yaml 中的第一个引擎。
+
+**背景**：`src/components/business/SearchBar.vue` 原 `selectedName = ref<string | null>(null)`，刷新后必然为空，`currentEngine` 回退到 `engines[0]`，用户每次访问都需要重新选择偏好引擎。项目已有 `src/composables/useClickStats.ts` 作为 localStorage 持久化的参考模式（key 命名 `nav:xxx`、try/catch 静默降级）。
+
+**涉及文件**：
+- `src/components/business/SearchBar.vue`
+
+**实现要点**：
+- 新增 `STORAGE_KEY = 'nav:search-engine'`、`loadSelectedName()` / `persistSelectedName()` 两个本地工具函数，均对 `window` 与 `try/catch` 做防御（隐私模式、配额超限静默降级到内存态）。
+- `selectedName` 的初始值改为 `loadSelectedName()`，刷新后能恢复上次选择。
+- 用 `watch(currentEngine, ..., { immediate: true })` 落盘，而非监听裸 `selectedName`，目的覆盖两种情形：
+  1) 用户手动切换 → 写入新名字；
+  2) yaml 删除了原引擎、自动回退到 `engines[0]` → 写入实际生效的名字，避免下次刷新仍解析到一个已被删除的旧名。
+- 与 `useClickStats` 保持一致的命名/失败处理模式，不抽公共 kv 工具（当前仅两处用例，抽象成本高于复用收益）。
+
+**验收标准**：
+- 选择某个搜索引擎后刷新页面，下拉框仍指向该引擎。
+- yaml 中删除当前已选引擎再刷新，下拉框回退到 `engines[0]`，且 localStorage 中存储的也是回退后的真实名（而非已删除的旧名）。
+- 隐私模式 / 禁用 localStorage 时不阻断搜索功能。
+- `npm run build` 通过，类型检查无报错。

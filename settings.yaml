@@ -74,7 +74,7 @@ urls:
             description: ""
         - 火山引擎:
             icon: /icons/火山引擎.svg
-            url: https://www.volcengine.com/
+            url: https://console.volcengine.com/ark/region:cn-beijing/subscription/coding-plan?projectName=default
             description: ""
         - 阿里百炼:
             icon: /icons/阿里百炼.svg
@@ -131,10 +131,18 @@ urls:
             icon: /icons/Bitwarden.png
             url: https://192.168.97.2:18443/#/
             description: ""
+        - GitHub:
+            icon: /icons/GitHub.svg
+            url: https://github.com/
+            description: ""
         - GitLab:
             icon: /icons/GitLab.svg
             url: http://192.168.97.3:8006/
             background: transparent
+            description: ""
+        - Coder:
+            icon: /icons/Coder.svg
+            url: http://192.168.31.6:7080/
             description: ""
         - Immich:
             icon: /icons/Immich.png

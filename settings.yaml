@@ -190,6 +190,10 @@ urls:
             url: http://192.168.97.3:8009/
             background: transparent
             description: ""
+        - Mermaid:
+            icon: /icons/Mermaid.svg
+            url: https://mermaid.live/
+            description: ""
 
   - 网络:
       icon: /icons/type/Network.svg
@@ -274,7 +278,7 @@ urls:
             description: ""
         - iReader:
             icon: /icons/iReader.svg
-            url: http://192.168.96.148:10123/
+            url: http://192.168.31.202:10123/
             background: transparent
             description: ""
 

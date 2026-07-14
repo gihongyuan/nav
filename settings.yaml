@@ -194,6 +194,14 @@ urls:
             icon: /icons/Mermaid.svg
             url: https://mermaid.live/
             description: ""
+        - IT-Tools:
+            icon: /icons/IT-Tools.svg
+            url: https://it-tools.tech/
+            description: ""
+        - Prompt Forge:
+            icon: /icons/Prompt.svg
+            url: https://prompt.rghongyuan.workers.dev/
+            description: ""
 
   - 网络:
       icon: /icons/type/Network.svg

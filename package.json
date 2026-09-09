@@ -21,7 +21,6 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@iconify-json/tabler": "^1.2.35",
-    "@rollup/plugin-yaml": "^5.0.0",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^24.12.3",
     "@typescript-eslint/eslint-plugin": "^8.61.1",

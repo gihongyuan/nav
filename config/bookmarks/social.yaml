@@ -1,0 +1,27 @@
+name: 社交
+icon: /icons/type/Social.svg
+children:
+  - name: Twitter
+    icon: /icons/Twitter.png
+    url: https://twitter.com/
+  - name: Facebook
+    icon: /icons/Facebook.svg
+    url: https://www.facebook.com/
+    background: transparent
+  - name: Flickr
+    icon: /icons/Flickr.svg
+    url: https://www.flickr.com/
+  - name: Pinterest
+    icon: /icons/Pinterest.png
+    url: https://www.pinterest.com/
+  - name: Instagram
+    icon: /icons/Instagram.png
+    url: https://www.instagram.com/
+    background: transparent
+  - name: Discord
+    icon: /icons/Discord.png
+    url: https://discord.com/channels/@me
+  - name: Telegram
+    icon: /icons/Telegram.png
+    url: https://telegram.org/
+    background: transparent

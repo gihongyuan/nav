@@ -1,0 +1,43 @@
+name: AI
+icon: /icons/type/AI.svg
+children:
+  - name: LobeChat
+    icon: /icons/Lobechat.png
+    url: http://192.168.97.4:3210/
+    background: transparent
+  - name: 豆包
+    icon: /icons/豆包.svg
+    url: https://www.doubao.com/chat/
+    background: transparent
+  - name: DeepSeek
+    icon: /icons/Deepseek.svg
+    url: https://www.deepseek.com/
+    description: DeepSeek
+  - name: ChatGPT
+    icon: /icons/ChatGPT.svg
+    url: https://chatgpt.com/
+    background: transparent
+  - name: Gemini
+    icon: /icons/Gemini.svg
+    url: https://gemini.google.com/app
+  - name: MIMO
+    icon: /icons/MIMO.png
+    url: https://platform.xiaomimimo.com/
+    background: transparent
+  - name: OpenRouter
+    icon: /icons/OpenRouter.svg
+    url: https://openrouter.ai/
+  - name: 火山引擎
+    icon: /icons/火山引擎.svg
+    url: https://console.volcengine.com/ark/region:cn-beijing/subscription/coding-plan?projectName=default
+  - name: 阿里百炼
+    icon: /icons/阿里百炼.svg
+    url: https://www.aliyun.com/product/bailian/
+  - name: Aizex API
+    icon: /icons/newApi.png
+    url: https://aizex.top/
+    description: Aizex API
+  - name: 302.ai
+    icon: /icons/302.webp
+    url: https://302.ai/
+    background: transparent

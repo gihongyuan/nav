@@ -1,0 +1,41 @@
+name: 应用
+icon: /icons/type/Server.svg
+children:
+  - name: Outline
+    icon: /icons/Outline.png
+    url: https://192.168.97.2:13443/
+    background: transparent
+  - name: Home Assistant
+    icon: /icons/HomeAssistant.svg
+    url: http://192.168.97.3:8123/
+  - name: NocoDB
+    icon: /icons/NocoDB.ico
+    url: http://192.168.97.3:8005/
+    background: transparent
+  - name: Dify
+    icon: /icons/Dify.svg
+    url: http://192.168.97.5/
+  - name: N8N
+    icon: /icons/N8N.png
+    url: https://192.168.97.2:15678/
+    background: transparent
+  - name: Karakeep
+    icon: /icons/Karakeep.ico
+    url: http://192.168.97.3:3000/
+  - name: Firefly III
+    icon: /icons/FireflyIII.png
+    url: http://192.168.97.3:8003/
+    background: transparent
+  - name: ezBookkeeping
+    icon: /icons/ezBookkeeping.ico
+    url: http://192.168.97.3:8009/
+    background: transparent
+  - name: Mermaid
+    icon: /icons/Mermaid.svg
+    url: https://mermaid.live/
+  - name: IT-Tools
+    icon: /icons/IT-Tools.svg
+    url: https://it-tools.tech/
+  - name: Prompt Forge
+    icon: /icons/Prompt.svg
+    url: https://prompt.rghongyuan.workers.dev/

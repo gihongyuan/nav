@@ -1,0 +1,15 @@
+name: 视频
+icon: /icons/type/Video.svg
+children:
+  - name: 哔哩哔哩
+    icon: /icons/哔哩哔哩.svg
+    url: http://www.bilibili.com/
+  - name: YouTube
+    icon: /icons/Youtube.svg
+    url: https://www.youtube.com/
+  - name: TikTok
+    icon: /icons/TikTok.svg
+    url: https://www.tiktok.com/en/
+  - name: 网易公开课
+    icon: /icons/网易公开课.svg
+    url: https://open.163.com/

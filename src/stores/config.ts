@@ -3,8 +3,8 @@ import { ref, computed } from 'vue'
 import type { BookmarkCategory } from '@/types/config'
 import { parseConfig, resolveIcon } from '@/utils'
 import { useClickStats } from '@/composables/useClickStats'
-// 编译期内联 settings.yaml（由 @rollup/plugin-yaml 处理）
-import rawConfig from '../../settings.yaml'
+// 编译期内联 config/ 目录下的所有配置（由 navConfigPlugin 虚拟模块处理）
+import rawConfig from 'virtual:nav-config'
 
 /** 「全部」分类的固定名称（保留常量供外部引用，不再出现在 dock 中） */
 export const ALL_CATEGORY = '全部'
@@ -16,7 +16,7 @@ export const FREQUENT_CATEGORY = '常用'
 const FREQUENT_LIMIT = 12
 
 /**
- * 全局配置 store — 编译期已内联 settings.yaml
+ * 全局配置 store — 编译期已内联 config/ 下所有 YAML 配置
  */
 export const useConfigStore = defineStore('config', () => {
   const config = ref(parseConfig(rawConfig as Record<string, unknown>))

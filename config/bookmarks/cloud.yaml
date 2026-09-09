@@ -1,0 +1,21 @@
+name: 云服务
+icon: /icons/type/Cloud.svg
+children:
+  - name: Cloudflare
+    icon: /icons/Cloudflare.svg
+    url: https://www.cloudflare.com/zh-cn/
+  - name: Slack
+    icon: /icons/Slack.svg
+    url: https://api.slack.com/
+  - name: Vultr
+    icon: /icons/Vultr.svg
+    url: https://www.vultr.com/
+  - name: 阿里云
+    icon: /icons/阿里云.svg
+    url: https://account.aliyun.com/
+  - name: 华为云
+    icon: /icons/华为云.svg
+    url: https://www.huaweicloud.com/
+  - name: 贝锐
+    icon: /icons/贝锐.ico
+    url: https://www.oray.com/

@@ -1,5 +1,5 @@
 /**
- * 解析后的扁平配置类型，来源于 settings.yaml
+ * 解析后的扁平配置类型，来源于 config/ 目录（global.yaml + bookmarks/*.yaml）
  */
 export interface SearchEngine {
   name: string

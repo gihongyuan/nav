@@ -1,0 +1,22 @@
+name: 网络
+icon: /icons/type/Network.svg
+children:
+  - name: NPM
+    icon: /icons/NPM.png
+    url: http://192.168.97.2:81/
+  - name: OpenWrt - 如城
+    icon: /icons/OpenWrt.svg
+    url: http://192.168.94.1/
+  - name: OpenWrt - 何庄
+    icon: /icons/OpenWrt.svg
+    url: http://192.168.95.1/
+  - name: 京东云无线宝 - 何庄
+    icon: /icons/京东云无线宝.svg
+    url: http://192.168.68.1
+  - name: AX3000T - 中航
+    icon: /icons/OpenWrt.svg
+    url: http://192.168.31.1/
+  - name: iKuai - 中航
+    icon: /icons/iKuai.svg
+    url: http://192.168.31.2/
+    background: transparent

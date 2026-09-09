@@ -1,0 +1,9 @@
+name: 搜索
+icon: /icons/type/Search.svg
+children:
+  - name: 百度
+    icon: /icons/Baidu.svg
+    url: https://www.baidu.com/
+  - name: Google
+    icon: /icons/Google.svg
+    url: https://www.google.com.hk/

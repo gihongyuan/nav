@@ -1,0 +1,18 @@
+name: VPN
+icon: /icons/type/VPN.svg
+children:
+  - name: 可莉
+    icon: /icons/type/VPN.svg
+    url: https://3.kle.tw/
+  - name: 三月七
+    icon: /icons/type/VPN.svg
+    url: https://三月七.com/
+  - name: iKuuu
+    icon: /icons/type/VPN.svg
+    url: https://ikuuu.one/
+  - name: nanoPort
+    icon: /icons/type/VPN.svg
+    url: https://v2.nanoport.xyz/
+  - name: 魔戒
+    icon: /icons/type/VPN.svg
+    url: https://mojie.best/

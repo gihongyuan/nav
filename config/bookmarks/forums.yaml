@@ -1,0 +1,30 @@
+name: 论坛
+icon: /icons/type/Forum.svg
+children:
+  - name: 百度贴吧
+    icon: /icons/百度贴吧.svg
+    url: https://tieba.baidu.com
+  - name: 知乎
+    icon: /icons/知乎.svg
+    url: http://www.zhihu.com/
+  - name: NGA
+    icon: /icons/NGA.svg
+    url: https://nga.178.com/
+    background: transparent
+  - name: 步行街
+    icon: /icons/步行街.svg
+    url: http://bbs.hupu.com/bxj
+  - name: Quora
+    icon: /icons/Quora.svg
+    url: https://www.quora.com/
+    background: transparent
+  - name: Reddit
+    icon: /icons/Reddit.svg
+    url: https://www.reddit.com/
+  - name: 恩山无线论坛
+    icon: /icons/恩山无线论坛.svg
+    url: https://www.right.com.cn/forum/
+    background: transparent
+  - name: Thingiverse
+    icon: /icons/Thingiverse.svg
+    url: https://www.thingiverse.com/

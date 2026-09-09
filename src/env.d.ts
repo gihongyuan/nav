@@ -1,11 +1,6 @@
 /// <reference types="vite/client" />
 
-declare module '*.yaml' {
-  const content: Record<string, unknown>
-  export default content
-}
-
-declare module '*.yml' {
-  const content: Record<string, unknown>
-  export default content
+declare module 'virtual:nav-config' {
+  const config: Record<string, unknown>
+  export default config
 }

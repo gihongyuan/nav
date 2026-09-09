@@ -1,0 +1,15 @@
+name: 邮箱
+icon: /icons/type/Email.svg
+children:
+  - name: 163邮箱
+    icon: /icons/163邮箱.svg
+    url: https://mail.163.com/
+  - name: 126邮箱
+    icon: /icons/126邮箱.svg
+    url: https://mail.126.com/
+  - name: QQ邮箱
+    icon: /icons/QQ邮箱.svg
+    url: https://mail.qq.com/
+  - name: 谷歌邮箱
+    icon: /icons/Gmail.svg
+    url: http://gmail.google.com/

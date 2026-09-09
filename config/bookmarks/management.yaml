@@ -1,0 +1,31 @@
+name: 管理
+icon: /icons/type/Manager.svg
+children:
+  - name: 群晖
+    icon: /icons/群晖.svg
+    url: https://192.168.31.8:5001/
+    background: transparent
+  - name: PVE
+    icon: /icons/PVE.png
+    url: https://192.168.31.3:8006/
+    background: transparent
+  - name: Casdoor
+    icon: /icons/Casdoor.png
+    url: http://192.168.97.2:8000/
+  - name: Bitwarden
+    icon: /icons/Bitwarden.png
+    url: https://192.168.97.2:18443/#/
+  - name: GitHub
+    icon: /icons/GitHub.svg
+    url: https://github.com/
+  - name: GitLab
+    icon: /icons/GitLab.svg
+    url: http://192.168.97.3:8006/
+    background: transparent
+  - name: Coder
+    icon: /icons/Coder.svg
+    url: http://192.168.31.6:7080/
+  - name: Immich
+    icon: /icons/Immich.png
+    url: http://192.168.97.3:2283/
+    background: transparent

@@ -3,15 +3,13 @@ import type { AppConfig, BookmarkCategory, BookmarkLink, SearchEngine } from '@/
 type RawYaml = Record<string, unknown>
 
 /**
- * 将 settings.yaml 的原始结构规范化为 AppConfig
+ * 将 config/ 下合并后的原始配置规范化为 AppConfig
  *
- * yaml 结构简化示例：
+ * 新格式（扁平、显式 name 字段）：
  *   search:
- *     - Baidu: { name, url, icon }
- *     - Google: { name, url, icon }
+ *     - { name: Baidu, url: ..., icon: ... }
  *   urls:
- *     - 搜索引擎: { icon, children: [ { 百度: { icon, url, description } }, ... ] }
- *     - 邮箱:     { icon, children: [ { 163邮箱: { icon, url, description } }, ... ] }
+ *     - { name: 搜索, icon: ..., children: [ { name: 百度, icon: ..., url: ... }, ... ] }
  */
 export function parseConfig(raw: RawYaml): AppConfig {
   return {
@@ -40,11 +38,11 @@ function parseSearch(raw: unknown): SearchEngine[] {
   if (!Array.isArray(raw)) return []
   return raw
     .map((item) => {
-      const inner = unwrapSingle(item)
-      if (!inner) return null
-      const [key, o] = inner
+      if (!item || typeof item !== 'object') return null
+      const o = item as Record<string, unknown>
+      if (!o.name) return null
       return {
-        name: String(o.name ?? key),
+        name: String(o.name),
         url: String(o.url ?? ''),
         icon: resolveIcon(String(o.icon ?? '')),
       }
@@ -56,11 +54,11 @@ function parseUrls(raw: unknown): BookmarkCategory[] {
   if (!Array.isArray(raw)) return []
   return raw
     .map((item) => {
-      const inner = unwrapSingle(item)
-      if (!inner) return null
-      const [key, o] = inner
+      if (!item || typeof item !== 'object') return null
+      const o = item as Record<string, unknown>
+      if (!o.name) return null
       return {
-        name: key,
+        name: String(o.name),
         icon: resolveIcon(String(o.icon ?? '')),
         children: parseChildren(o.children),
       }
@@ -71,11 +69,11 @@ function parseUrls(raw: unknown): BookmarkCategory[] {
 function parseChildren(raw: unknown): BookmarkLink[] {
   if (!Array.isArray(raw)) return []
   const items = raw.map((item): BookmarkLink | null => {
-    const inner = unwrapSingle(item)
-    if (!inner) return null
-    const [key, o] = inner
+    if (!item || typeof item !== 'object') return null
+    const o = item as Record<string, unknown>
+    if (!o.name) return null
     const link: BookmarkLink = {
-      title: key,
+      title: String(o.name),
       icon: resolveIcon(String(o.icon ?? '')),
       url: String(o.url ?? ''),
     }
@@ -84,17 +82,4 @@ function parseChildren(raw: unknown): BookmarkLink[] {
     return link
   })
   return items.filter((v): v is BookmarkLink => v !== null)
-}
-
-/**
- * yaml 的「数组里嵌套单 key 对象」结构（如 `- 百度: { ... }`）解包为 [key, value]
- */
-function unwrapSingle(item: unknown): [string, Record<string, unknown>] | null {
-  if (!item || typeof item !== 'object') return null
-  const keys = Object.keys(item)
-  if (keys.length === 0) return null
-  const key = keys[0]
-  const inner = (item as Record<string, unknown>)[key]
-  if (!inner || typeof inner !== 'object') return null
-  return [key, inner as Record<string, unknown>]
 }

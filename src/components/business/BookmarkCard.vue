@@ -29,7 +29,7 @@ const props = defineProps<{
   link: BookmarkLink
 }>()
 
-/** 书签卡片图标背景：缺省白色，可在 settings.yaml 的 urls 各书签项 background 字段覆盖 */
+/** 书签卡片图标背景：缺省白色，可在 config/bookmarks/*.yaml 各书签项 background 字段覆盖 */
 const effectiveBg = computed(() => props.link.background ?? '#ffffff')
 
 /** 透明模式：去除容器装饰，只显示 BaseIcon */

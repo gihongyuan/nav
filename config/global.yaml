@@ -1,0 +1,47 @@
+# ============================
+# 全局配置
+# ============================
+
+# 页面标题
+title: 导航
+
+# 浏览器标签页图标
+icon: /icons/Navigation.svg
+
+# 背景壁纸
+background: /background.jpeg
+
+# ============================
+# 搜索引擎
+# ============================
+search:
+  - name: Baidu
+    url: https://www.baidu.com/s?wd={query}
+    icon: /icons/Baidu.svg
+  - name: Google
+    url: https://www.google.com/search?q={query}
+    icon: /icons/Google.svg
+  - name: Bing
+    url: https://www.bing.com/search?q={query}
+    icon: /icons/Bing.svg
+  - name: Docker Hub
+    url: https://hub.docker.com/search?q={query}
+    icon: /icons/Docker.svg
+
+# ============================
+# 分类顺序（文件名，不含扩展名）
+# 列表顺序 = 页面 dock 显示顺序
+# ============================
+categoryOrder:
+  - search
+  - ai
+  - video
+  - management
+  - apps
+  - network
+  - social
+  - books
+  - forums
+  - cloud
+  - email
+  - vpn

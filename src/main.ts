@@ -12,7 +12,7 @@ const pinia = createPinia()
 app.use(pinia)
 app.use(router)
 
-// 用 settings.yaml 的配置初始化浏览器标签页：标题 + favicon
+// 用 config/ 的配置初始化浏览器标签页：标题 + favicon
 const configStore = useConfigStore(pinia)
 if (configStore.config.title) {
   document.title = configStore.config.title

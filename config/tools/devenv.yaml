@@ -1,0 +1,72 @@
+name: 开发环境
+icon: /icons/type/Server.svg
+children:
+  - name: JDK
+    icon: /icons/Java.svg
+    desc: Java开发工具包，Java程序运行环境
+    tags: [Java, 运行时, 后端]
+    versions:
+      - version: 11
+        name: 下载页
+        url: https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html
+        latest: false
+
+  - name: Python
+    icon: /icons/Python.svg
+    desc: Python编程语言解释器和标准库
+    tags: [Python, 脚本, AI]
+    versions:
+      - version: 最新版
+        name: Windows
+        url: https://www.python.org/downloads/windows/
+        latest: true
+
+  - name: NVM
+    icon: /icons/NVM.svg
+    desc: Node.js版本管理工具，多版本切换
+    tags: [Node.js, 版本管理, 前端]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://www.nvmnode.com/guide/download.html
+        latest: true
+
+  - name: Maven
+    icon: /icons/Maven.svg
+    desc: Java项目管理和构建工具
+    tags: [Java, 构建, 依赖]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://maven.apache.org/download.cgi
+        latest: true
+
+  - name: Gradle
+    icon: /icons/Gradle.svg
+    desc: 现代化的Java构建和依赖管理工具
+    tags: [Java, 构建, 自动化]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://gradle.org/releases/
+        latest: true
+
+  - name: Tomcat
+    icon: /icons/Tomcat.svg
+    desc: Apache Java Servlet容器，Web应用服务器
+    tags: [Java, Web, 服务器]
+    versions:
+      - version: 9
+        name: 下载页
+        url: https://tomcat.apache.org/download-90.cgi
+        latest: false
+
+  - name: Docker Desktop
+    icon: /icons/Docker.svg
+    desc: 容器化平台，一键运行容器化应用
+    tags: [容器, 虚拟化, 部署]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://www.docker.com/products/docker-desktop/
+        latest: true

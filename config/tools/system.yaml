@@ -1,0 +1,86 @@
+name: 系统工具
+icon: /icons/type/Manager.svg
+children:
+  - name: 火绒
+    icon: /icons/火绒.svg
+    desc: 轻量级安全软件，无弹窗，安静守护
+    tags: [安全, 杀毒, 防护]
+    versions:
+      - version: 最新版
+        name: Windows
+        url: https://www.huorong.cn
+        latest: true
+
+  - name: 驱动总裁
+    icon: /icons/驱动总裁.jpg
+    desc: 智能驱动管理工具，一键安装更新驱动
+    tags: [驱动, 硬件]
+    versions:
+      - version: 最新版
+        name: 在线版
+        url: https://www.sysceo.com/software-softwarei-id-258.html
+        latest: true
+      - version: 最新版
+        name: 网卡绿色版
+        url: https://www.sysceo.com/software-softwarei-id-123.html
+        latest: true
+
+  - name: Everything
+    icon: /icons/Everything.svg
+    desc: Windows上最快的文件搜索引擎，实时索引，秒级响应
+    tags: [搜索, 文件]
+    versions:
+      - version: 最新版
+        name: Windows
+        url: https://www.voidtools.com/zh-cn/downloads/
+        latest: true
+
+  - name: 7-Zip
+    icon: /icons/7zip.svg
+    desc: 开源免费的压缩软件，支持多种压缩格式
+    tags: [压缩, 解压]
+    versions:
+      - version: 最新版
+        name: Windows/Linux/MacOS
+        url: https://www.7-zip.org/download.html
+        latest: true
+
+  - name: Listary
+    icon: /icons/Listary.svg
+    desc: 文件搜索和快速启动工具，提升工作效率
+    tags: [搜索, 工具]
+    versions:
+      - version: 最新版
+        name: Windows
+        url: https://www.listary.com/download
+        latest: true
+
+  - name: CrystalDiskInfo
+    icon: /icons/CrystalDiskInfo.jpg
+    desc: 硬盘健康状态检测工具，监控S.M.A.R.T.信息
+    tags: [硬盘, 检测, 监控]
+    versions:
+      - version: 最新版
+        name: 标准版
+        url: https://crystalmark.info/redirect.php?product=CrystalDiskInfoInstallerAds
+        latest: true
+
+  - name: 小米电脑管家
+    icon: /icons/小米电脑管家.png
+    desc: 系统优化和硬件检测工具，提升电脑性能
+    tags: [优化, 硬件, 管理]
+    versions:
+      - version: 最新版
+        name: Windows
+        url: https://pc.mi.com/pc-manager-help
+        latest: true
+
+  - name: 华为电脑管家
+    icon: /icons/华为电脑管家.png
+    desc: 系统优化和硬件检测工具，提升电脑性能
+    tags: [优化, 硬件, 管理]
+    versions:
+      - version: 最新版
+        name: Windows
+        url: https://consumer.huawei.com/cn/support/pc-manager/
+        latest: true

@@ -1,0 +1,92 @@
+name: 开发工具
+icon: /icons/GitHub.svg
+children:
+  - name: Git
+    icon: /icons/Git.svg
+    desc: 分布式版本控制系统
+    tags: [版本控制, 协作, 必备]
+    versions:
+      - version: 最新版
+        name: Windows
+        url: https://git-scm.com/install/windows
+        latest: true
+
+  - name: DBeaver
+    icon: /icons/DBeaver.svg
+    desc: 通用数据库管理工具，支持多种数据库
+    tags: [数据库, SQL, MySQL]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://dbeaver.io/download/
+        latest: true
+
+  - name: Apifox
+    icon: /icons/Apifox.svg
+    desc: API文档、调试、Mock、测试一体化平台
+    tags: [API, 调试, 测试]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://docs.apifox.com/download
+        latest: true
+
+  - name: MobaXterm
+    icon: /icons/MobaXterm.svg
+    desc: SSH/Telnet终端工具
+    tags: [SSH, 终端, 运维]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://mobaxterm.mobatek.net/download.html
+        latest: true
+
+  - name: WindTerm
+    icon: /icons/GitHub.svg
+    desc: 高性能SSH/Telnet终端工具
+    tags: [SSH, 终端, 运维]
+    versions:
+      - version: 最新版
+        name: 发布页
+        url: https://github.com/kingToolbox/WindTerm/releases
+        latest: true
+
+  - name: VS Code
+    icon: /icons/VSCode.svg
+    desc: 轻量级代码编辑器，丰富的插件生态
+    tags: [编辑器, 前端, 全栈]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://code.visualstudio.com/Download
+        latest: true
+
+  - name: IntelliJ IDEA
+    icon: /icons/IDEA.svg
+    desc: JetBrains出品的Java IDE，智能代码助手
+    tags: [IDE, Java, 后端]
+    versions:
+      - version: 最新版
+        name: Windows
+        url: https://www.jetbrains.com/zh-cn/idea/download/?section=windows
+        latest: true
+
+  - name: PyCharm
+    icon: /icons/PyCharm.svg
+    desc: JetBrains出品的Python IDE
+    tags: [IDE, Python, AI]
+    versions:
+      - version: 最新版
+        name: Windows
+        url: https://www.jetbrains.com/pycharm/download/?section=windows
+        latest: true
+
+  - name: Qoder
+    icon: /icons/Qoder.svg
+    desc: 轻量级代码编辑器，支持多种语言和插件
+    tags: [编辑器, 前端, 全栈]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://qoder.cn/download
+        latest: true

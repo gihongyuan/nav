@@ -1,0 +1,86 @@
+name: 办公软件
+icon: /icons/type/Book.svg
+children:
+  - name: Chrome
+    icon: /icons/Chrome.svg
+    desc: Google出品的快速、安全的浏览器
+    tags: [浏览器, Google, 必备]
+    versions:
+      - version: 最新版
+        name: 在线安装包
+        url: https://www.google.com/chrome/
+        latest: true
+      - version: 最新版
+        name: 离线安装包
+        url: https://www.google.cn/chrome/?standalone=1&platform=win64
+        latest: true
+
+  - name: WPS Office
+    icon: /icons/WPS.svg
+    desc: 国产办公套件，兼容Microsoft Office
+    tags: [Office, 文档, 表格]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://www.wps.cn/
+        latest: true
+
+  - name: Office Tool Plus
+    icon: /icons/officeToolPlus.ico
+    desc: Office部署和激活管理工具
+    tags: [Office, 激活, 部署]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://www.officetool.plus/zh-cn/introduction/download.html
+        latest: true
+
+  - name: 微信
+    icon: /icons/微信.svg
+    desc: 即时通讯软件，支持文字、语音、视频
+    tags: [聊天, 社交, 必备]
+    versions:
+      - version: 最新版
+        name: Windows
+        url: https://pc.weixin.qq.com/
+        latest: true
+
+  - name: 钉钉
+    icon: /icons/钉钉.svg
+    desc: 企业级通讯和协作平台
+    tags: [办公, 协作, 企业]
+    versions:
+      - version: 最新版
+        name: Windows
+        url: https://www.dingtalk.com/download
+        latest: true
+
+  - name: Obsidian
+    icon: /icons/Obsidian.svg
+    desc: 强大的知识库和笔记软件，支持Markdown
+    tags: [笔记, Markdown, 知识库]
+    versions:
+      - version: 最新版
+        name: Windows
+        url: https://obsidian.md/zh/download
+        latest: true
+
+  - name: Notepad++
+    icon: /icons/NotepadPlus.svg
+    desc: 免费的代码和文本编辑器，支持多种语言
+    tags: [编辑器, 文本, 代码]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://notepad-plus-plus.org/downloads/
+        latest: true
+
+  - name: 腾讯会议
+    icon: /icons/腾讯会议.svg
+    desc: 在线视频会议软件
+    tags: [视频会议, 协作, 企业]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://meeting.tencent.com/download/
+        latest: true

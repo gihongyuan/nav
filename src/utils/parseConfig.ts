@@ -1,4 +1,4 @@
-import type { AppConfig, BookmarkCategory, BookmarkLink, SearchEngine } from '@/types/config'
+import type { AppConfig, BookmarkCategory, BookmarkLink, SearchEngine, Tool, ToolCategory, ToolVersion } from '@/types/config'
 
 type RawYaml = Record<string, unknown>
 
@@ -10,6 +10,8 @@ type RawYaml = Record<string, unknown>
  *     - { name: Baidu, url: ..., icon: ... }
  *   urls:
  *     - { name: 搜索, icon: ..., children: [ { name: 百度, icon: ..., url: ... }, ... ] }
+ *   tools:
+ *     - { name: 系统工具, icon: ..., children: [ { name: xxx, icon: ..., desc: ..., versions: [...] }, ... ] }
  */
 export function parseConfig(raw: RawYaml): AppConfig {
   return {
@@ -18,6 +20,7 @@ export function parseConfig(raw: RawYaml): AppConfig {
     background: resolveIcon(String(raw.background ?? '')),
     search: parseSearch(raw.search),
     urls: parseUrls(raw.urls),
+    tools: parseTools(raw.tools),
   }
 }
 
@@ -82,4 +85,58 @@ function parseChildren(raw: unknown): BookmarkLink[] {
     return link
   })
   return items.filter((v): v is BookmarkLink => v !== null)
+}
+
+// ============ 工具配置解析 ============
+
+function parseTools(raw: unknown): ToolCategory[] {
+  if (!Array.isArray(raw)) return []
+  return raw
+    .map((item) => {
+      if (!item || typeof item !== 'object') return null
+      const o = item as Record<string, unknown>
+      if (!o.name) return null
+      return {
+        name: String(o.name),
+        icon: resolveIcon(String(o.icon ?? '')),
+        children: parseToolChildren(o.children),
+      }
+    })
+    .filter((v): v is ToolCategory => v !== null)
+}
+
+function parseToolChildren(raw: unknown): Tool[] {
+  if (!Array.isArray(raw)) return []
+  const items = raw.map((item): Tool | null => {
+    if (!item || typeof item !== 'object') return null
+    const o = item as Record<string, unknown>
+    if (!o.name) return null
+    const tool: Tool = {
+      name: String(o.name),
+      icon: resolveIcon(String(o.icon ?? '')),
+      desc: String(o.desc ?? ''),
+      versions: parseVersions(o.versions),
+    }
+    if (o.tags && Array.isArray(o.tags)) {
+      tool.tags = o.tags.map(String)
+    }
+    return tool
+  })
+  return items.filter((v): v is Tool => v !== null)
+}
+
+function parseVersions(raw: unknown): ToolVersion[] {
+  if (!Array.isArray(raw)) return []
+  const items = raw.map((item): ToolVersion | null => {
+    if (!item || typeof item !== 'object') return null
+    const o = item as Record<string, unknown>
+    if (!o.version) return null
+    return {
+      version: String(o.version),
+      name: String(o.name ?? ''),
+      url: String(o.url ?? ''),
+      latest: Boolean(o.latest),
+    }
+  })
+  return items.filter((v): v is ToolVersion => v !== null)
 }

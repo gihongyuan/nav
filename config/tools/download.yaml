@@ -1,0 +1,52 @@
+name: 网盘下载
+icon: /icons/type/Download.svg
+children:
+  - name: 阿里云盘
+    icon: /icons/阿里云盘.svg
+    desc: 阿里云旗下云存储软件，不限速，支持分享
+    tags: [云盘, 存储, 不限速]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://www.alipan.com/download
+        latest: true
+
+  - name: 百度网盘
+    icon: /icons/百度网盘.svg
+    desc: 云存储软件，支持多设备同步和文件分享
+    tags: [云盘, 存储, 分享]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://pan.baidu.com/download
+        latest: true
+  
+  - name: 夸克网盘
+    icon: /icons/夸克网盘.svg
+    desc: 夸克浏览器旗下云存储软件，支持文件分享和同步
+    tags: [云盘, 存储, 分享]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://pan.quark.cn/
+        latest: true
+
+  - name: Motrix
+    icon: /icons/Motrix.jpg
+    desc: 开源全能下载工具，支持BT磁力HTTP等
+    tags: [下载, BT, 磁力, 开源]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://motrix.app/download/
+        latest: true
+
+  - name: 迅雷
+    icon: /icons/迅雷.svg
+    desc: 下载工具，支持HTTP/BT/磁力链接
+    tags: [下载, BT, 磁力, 加速]
+    versions:
+      - version: 最新版
+        name: 官网
+        url: https://www.xunlei.com/
+        latest: true

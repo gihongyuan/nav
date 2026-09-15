@@ -1,0 +1,71 @@
+name: AI辅助
+icon: /icons/type/AI.svg
+children:
+  - name: Codex
+    icon: /icons/ChatGPT.svg
+    desc: OpenAI开发的AI对话助手，支持对话、写作、代码生成
+    tags: [AI, 对话, OpenAI]
+    versions:
+      - version: 最新版
+        name: 桌面版
+        url: https://openai.com/zh-Hans-CN/codex/
+        latest: true
+      - version: 最新版
+        name: CLI
+        url: https://learn.chatgpt.com/docs/codex/cli#getting-started
+        latest: true
+
+
+  - name: Claude Code
+    icon: /icons/Claude.svg
+    desc: Anthropic开发的AI助手，擅长深度分析、长文写作和代码
+    tags: [AI, 对话, 写作]
+    versions:
+      - version: 最新版
+        name: 桌面版
+        url: https://claude.com/product/claude-code
+        latest: true
+      - version: 最新版
+        name: CLI
+        url: https://code.claude.com/docs/en/quickstart#step-1-install-claude-code
+        latest: true
+
+  - name: OpenCode
+    icon: /icons/OpenCode.svg
+    desc: 开源AI助手，支持多模型接入，界面简洁
+    tags: [AI, 开源, 多模型]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://opencode.ai/zh/download
+        latest: true
+
+  - name: Cherry Studio
+    icon: /icons/CherryStudio.svg
+    desc: 开源AI助手，支持多模型接入，界面简洁
+    tags: [AI, 开源, 多模型]
+    versions:
+      - version: 最新版
+        name: 发布页
+        url: https://github.com/CherryHQ/cherry-studio/releases
+        latest: true
+
+  - name: LobeHub
+    icon: /icons/Lobechat.png
+    desc: 开源AI聊天客户端，支持多模型接入，界面美观
+    tags: [AI, 开源, 客户端]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://lobehub.com/zh/downloads
+        latest: true
+
+  - name: CC-Switch
+    icon: /icons/CCSwitch.png
+    desc: Claude Code API Key多账号切换管理工具
+    tags: [AI, API, 工具]
+    versions:
+      - version: 最新版
+        name: 发布页
+        url: https://github.com/farion1231/cc-switch/releases
+        latest: true

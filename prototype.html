@@ -203,6 +203,104 @@
   }
   .search-btn svg { width: 16px; height: 16px; stroke-width: 3; }
 
+  /* === Left Sidebar Tools === */
+  .sidebar-tools {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+  }
+
+  .sidebar-tools-btn {
+    width: 44px;
+    height: 44px;
+    background: var(--surface);
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+    border: 1px solid var(--glass-border);
+    border-left: none;
+    border-radius: 0 14px 14px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.08);
+    color: var(--text-main);
+    position: relative;
+  }
+
+  .sidebar-tools-btn:hover {
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--accent);
+    box-shadow: 3px 0 16px rgba(59, 130, 246, 0.2);
+  }
+
+  .sidebar-tools-btn svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.25s ease;
+  }
+
+  .sidebar-tools-btn:hover svg {
+    transform: scale(1.15) rotate(-10deg);
+  }
+
+  .sidebar-tools-tooltip {
+    position: absolute;
+    left: 56px;
+    top: 50%;
+    transform: translateY(-50%) translateX(-8px);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: var(--text-main);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+    transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sidebar-tools-tooltip::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.95);
+    border-left: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .sidebar-tools-btn:hover .sidebar-tools-tooltip {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+
+  .sidebar-tools-badge {
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 8px;
+    min-width: 20px;
+    text-align: center;
+  }
+
   /* === Content: Grid (Boxless Cards) === */
   .content { width: 100%; flex: 1; overflow-y: auto; padding-bottom: 20px; }
   
@@ -300,6 +398,325 @@
   }
   .dock-item:hover .dock-tip { opacity: 1; transform: translateY(0); }
 
+  /* === Tools Modal === */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal {
+    width: min(960px, 90vw);
+    height: min(640px, 80vh);
+    background: var(--surface);
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    display: flex;
+    overflow: hidden;
+    transform: scale(0.95) translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .modal-overlay.active .modal {
+    transform: scale(1) translateY(0);
+  }
+
+  .modal-sidebar {
+    width: 200px;
+    background: rgba(255, 255, 255, 0.3);
+    border-right: 1px solid var(--glass-border);
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .modal-category {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-main);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 0 12px 12px 0;
+    margin-right: 12px;
+  }
+
+  .modal-category:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .modal-category.active {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .modal-category svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .modal-content {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+  }
+
+  .modal-content::-webkit-scrollbar { width: 6px; }
+  .modal-content::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.2); border-radius: 3px; }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+
+  .modal-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-main);
+  }
+
+  .modal-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    color: var(--text-main);
+  }
+
+  .modal-close:hover {
+    background: rgba(0, 0, 0, 0.1);
+    transform: scale(1.1);
+  }
+
+  .modal-close svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .tool-card {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-main);
+    overflow: hidden;
+  }
+
+  .tool-card:hover {
+    background: rgba(255, 255, 255, 0.7);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .tool-card-main {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .tool-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+
+  .tool-card:hover .tool-icon {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  .tool-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tool-name {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 4px;
+    color: var(--text-main);
+  }
+
+  .tool-desc {
+    font-size: 12px;
+    color: var(--text-sub);
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .tool-expand-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--text-sub);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .tool-card.expanded .tool-expand-icon {
+    transform: rotate(180deg);
+    color: var(--accent);
+  }
+
+  .tool-versions {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background: rgba(0, 0, 0, 0.02);
+    border-top: 1px solid transparent;
+  }
+
+  .tool-card.expanded .tool-versions {
+    max-height: 300px;
+    border-top-color: var(--glass-border);
+  }
+
+  .tool-versions-list {
+    padding: 8px 12px;
+  }
+
+  .tool-version-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-radius: 8px;
+    transition: background 0.15s ease;
+  }
+
+  .tool-version-item:hover {
+    background: rgba(255, 255, 255, 0.6);
+  }
+
+  .tool-version-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .tool-version-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: var(--accent-bg);
+    color: var(--accent);
+  }
+
+  .tool-version-badge.latest {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .tool-version-name {
+    font-size: 13px;
+    color: var(--text-main);
+    font-weight: 500;
+  }
+
+  .tool-version-download {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+
+  .tool-version-download:hover {
+    background: var(--accent-hover);
+    transform: scale(1.02);
+  }
+
+  .tool-version-download svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  @media (max-width: 768px) {
+    .modal {
+      width: 95vw;
+      height: 85vh;
+      flex-direction: column;
+    }
+    .modal-sidebar {
+      width: 100%;
+      flex-direction: row;
+      overflow-x: auto;
+      padding: 12px;
+      border-right: none;
+      border-bottom: 1px solid var(--glass-border);
+      gap: 8px;
+    }
+    .modal-category {
+      white-space: nowrap;
+      margin-right: 0;
+      border-radius: 12px;
+      padding: 10px 16px;
+    }
+    .tools-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   
   @media (max-width: 800px) {
@@ -323,13 +740,26 @@
 <!-- Wallpaper Background Layer -->
 <div id="wallpaper"></div>
 
+<!-- Left Sidebar Tools -->
+<div class="sidebar-tools">
+  <button class="sidebar-tools-btn" onclick="openToolsModal()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+    </svg>
+    <div class="sidebar-tools-tooltip">
+      常用工具
+      <span class="sidebar-tools-badge" id="toolsCount">30</span>
+    </div>
+  </button>
+</div>
+
 <div class="container">
   <header class="hero">
     <div class="time" id="time">00:00</div>
     <div class="date" id="date">Loading...</div>
   </header>
 
-  <!-- Search Bar with Custom Dropdown -->
+  <!-- Search Bar -->
   <form class="search-wrap" id="searchForm">
     <div class="search-box">
       
@@ -392,6 +822,55 @@
     <div class="dock-item" data-cat="social" onclick="setFilter('social')">
       <span class="dock-tip">社交</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+    </div>
+  </div>
+</div>
+
+<!-- Tools Download Modal -->
+<div class="modal-overlay" id="toolsModal">
+  <div class="modal">
+    <div class="modal-sidebar">
+      <div class="modal-category active" data-category="system" onclick="switchCategory('system')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+        系统工具
+      </div>
+      <div class="modal-category" data-category="network" onclick="switchCategory('network')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        网络工具
+      </div>
+      <div class="modal-category" data-category="devenv" onclick="switchCategory('devenv')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+        开发环境
+      </div>
+      <div class="modal-category" data-category="devtools" onclick="switchCategory('devtools')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+        开发工具
+      </div>
+      <div class="modal-category" data-category="office" onclick="switchCategory('office')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+        办公软件
+      </div>
+      <div class="modal-category" data-category="ai" onclick="switchCategory('ai')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2z"></path><path d="M12 6v6l4 2"></path></svg>
+        AI辅助
+      </div>
+      <div class="modal-category" data-category="entertainment" onclick="switchCategory('entertainment')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        游戏娱乐
+      </div>
+      <div class="modal-category" data-category="download" onclick="switchCategory('download')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        网盘下载
+      </div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="modalTitle">系统工具</div>
+        <button class="modal-close" onclick="closeToolsModal()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="tools-grid" id="toolsGrid"></div>
     </div>
   </div>
 </div>
@@ -477,6 +956,497 @@
   }
   setInterval(updateClock, 1000);
   updateClock();
+
+  // === Tools Download Modal ===
+  const toolsData = {
+    system: [
+      {
+        name: 'Everything',
+        icon: '🔍',
+        desc: 'Windows上最快的文件搜索引擎，实时索引，秒级响应',
+        versions: [
+          { version: '1.4.1', name: '正式版', url: './tools/03 办公/Everything-1.4.1.1032.x64-Setup.exe', latest: true }
+        ]
+      },
+      {
+        name: '7-Zip',
+        icon: '🗜️',
+        desc: '开源免费的压缩软件，支持多种压缩格式',
+        versions: [
+          { version: '26.02', name: 'x64正式版', url: './tools/03 办公/7z2602-x64.exe', latest: true }
+        ]
+      },
+      {
+        name: 'Listary',
+        icon: '📋',
+        desc: '文件搜索和快速启动工具，提升工作效率',
+        versions: [
+          { version: '6.3', name: '正式版', url: 'https://www.listary.com/download', latest: true }
+        ]
+      },
+      {
+        name: '火绒',
+        icon: '🛡️',
+        desc: '轻量级安全软件，无弹窗，安静守护',
+        versions: [
+          { version: '6.0', name: '最新版', url: 'https://www.huorong.cn', latest: true }
+        ]
+      },
+      {
+        name: '驱动总裁',
+        icon: '🔧',
+        desc: '智能驱动管理工具，一键安装更新驱动',
+        versions: [
+          { version: '最新版', name: '离线版', url: 'https://www.drce.com', latest: true }
+        ]
+      },
+      {
+        name: 'CrystalDiskInfo',
+        icon: '💾',
+        desc: '硬盘健康状态检测工具，监控S.M.A.R.T.信息',
+        versions: [
+          { version: '9.x', name: '标准版', url: 'https://crystalmark.info/en/software/crystaldiskinfo/', latest: true }
+        ]
+      },
+      {
+        name: 'AS SSD Benchmark',
+        icon: '⚡',
+        desc: 'SSD固态硬盘性能测试工具',
+        versions: [
+          { version: '2.0', name: '最新版', url: 'https://www.ass-ssd.com', latest: true }
+        ]
+      }
+    ],
+    network: [
+      {
+        name: 'Clash Verge',
+        icon: '🌐',
+        desc: '基于Clash内核的跨平台代理客户端',
+        versions: [
+          { version: '2.5.2', name: 'x64安装包', url: './tools/01 网络/Clash.Verge_2.5.2_x64-setup.exe', latest: true }
+        ]
+      },
+      {
+        name: 'OpenVPN',
+        icon: '🔒',
+        desc: '开源VPN解决方案，支持SSL/TLS加密',
+        versions: [
+          { version: '3.9.0', name: 'Connect客户端', url: './tools/01 网络/openvpn-connect-3.9.0.5008_signed.msi', latest: true }
+        ]
+      },
+      {
+        name: 'Wireshark',
+        icon: '🦈',
+        desc: '网络协议分析器，抓包调试必备工具',
+        versions: [
+          { version: '4.6.8', name: 'x64安装包', url: './tools/01 网络/Wireshark-4.6.8-x64.exe', latest: true }
+        ]
+      },
+      {
+        name: 'iperf',
+        icon: '📊',
+        desc: '网络性能测试工具，测量带宽和延迟',
+        versions: [
+          { version: '3.x', name: '最新版', url: 'https://iperf.fr', latest: true }
+        ]
+      },
+      {
+        name: 'mkcert',
+        icon: '🔐',
+        desc: '本地HTTPS证书生成工具，开发调试必备',
+        versions: [
+          { version: '1.4.4', name: 'Windows版', url: './tools/01 网络/mkcert-v1.4.4-windows-amd64.exe', latest: true }
+        ]
+      },
+      {
+        name: 'RaiDrive',
+        icon: '☁️',
+        desc: '将云存储挂载为本地磁盘使用',
+        versions: [
+          { version: '最新版', name: '标准版', url: 'https://www.raidrive.com/download', latest: true }
+        ]
+      }
+    ],
+    devenv: [
+      {
+        name: 'JDK',
+        icon: '☕',
+        desc: 'Java开发工具包，Java程序运行环境',
+        versions: [
+          { version: '11.0.32', name: 'Windows x64', url: './tools/02 开发/jdk-11.0.32_windows-x64_bin.exe', latest: true },
+          { version: '8.x', name: 'LTS版本', url: 'https://www.oracle.com/java/technologies/downloads/', latest: false }
+        ]
+      },
+      {
+        name: 'Python',
+        icon: '🐍',
+        desc: 'Python编程语言解释器和标准库',
+        versions: [
+          { version: '3.8.6', name: 'Windows x64', url: './tools/02 开发/python-3.8.6-amd64.exe', latest: false },
+          { version: '3.12', name: '最新版', url: 'https://www.python.org/downloads/', latest: true }
+        ]
+      },
+      {
+        name: 'nvm',
+        icon: '🟢',
+        desc: 'Node.js版本管理工具，多版本切换',
+        versions: [
+          { version: '1.x', name: 'Windows版', url: './tools/02 开发/nvm-setup.zip', latest: true }
+        ]
+      },
+      {
+        name: 'Docker Desktop',
+        icon: '🐳',
+        desc: '容器化平台，一键运行容器化应用',
+        versions: [
+          { version: '最新版', name: 'Windows安装包', url: './tools/02 开发/Docker Desktop Installer.exe', latest: true }
+        ]
+      },
+      {
+        name: 'Maven',
+        icon: '🏗️',
+        desc: 'Java项目管理和构建工具',
+        versions: [
+          { version: '3.5.2', name: 'Binary包', url: './tools/02 开发/apache-maven-3.5.2-bin.zip', latest: false },
+          { version: '3.9', name: '最新版', url: 'https://maven.apache.org/download.cgi', latest: true }
+        ]
+      },
+      {
+        name: 'Gradle',
+        icon: '🏛️',
+        desc: '现代化的Java构建和依赖管理工具',
+        versions: [
+          { version: '8.x', name: '最新版', url: 'https://gradle.org/install/', latest: true }
+        ]
+      },
+      {
+        name: 'Tomcat',
+        icon: '🐱',
+        desc: 'Apache Java Servlet容器，Web应用服务器',
+        versions: [
+          { version: '9.0.78', name: '稳定版', url: './tools/02 开发/apache-tomcat-9.0.78.zip', latest: true }
+        ]
+      }
+    ],
+    devtools: [
+      {
+        name: 'VS Code',
+        icon: '💻',
+        desc: '轻量级代码编辑器，丰富的插件生态',
+        versions: [
+          { version: '1.136', name: 'x64安装包', url: './tools/02 开发/VSCodeUserSetup-x64-1.136.0.exe', latest: true }
+        ]
+      },
+      {
+        name: 'IntelliJ IDEA',
+        icon: '🧠',
+        desc: 'JetBrains出品的Java IDE，智能代码助手',
+        versions: [
+          { version: '2026.2.2', name: '安装包', url: './tools/02 开发/idea-2026.2.2.exe', latest: true }
+        ]
+      },
+      {
+        name: 'PyCharm',
+        icon: '🐍',
+        desc: 'JetBrains出品的Python IDE',
+        versions: [
+          { version: '2026.2.1', name: '安装包', url: './tools/02 开发/pycharm-2026.2.1.exe', latest: true }
+        ]
+      },
+      {
+        name: 'Git',
+        icon: '🔀',
+        desc: '分布式版本控制系统',
+        versions: [
+          { version: '2.55.0', name: '64位安装包', url: './tools/02 开发/Git-2.55.0.5-64-bit.exe', latest: true }
+        ]
+      },
+      {
+        name: 'DBeaver',
+        icon: '🐬',
+        desc: '通用数据库管理工具，支持多种数据库',
+        versions: [
+          { version: '26.2.0', name: 'CE社区版', url: './tools/02 开发/dbeaver-ce-26.2.0-windows-x86_64.exe', latest: true }
+        ]
+      },
+      {
+        name: 'Apifox',
+        icon: '📮',
+        desc: 'API文档、调试、Mock、测试一体化平台',
+        versions: [
+          { version: '最新版', name: 'Windows版', url: './tools/02 开发/API/Apifox-windows-latest.zip', latest: true }
+        ]
+      },
+      {
+        name: 'WindTerm',
+        icon: '🖥️',
+        desc: '高性能SSH/Telnet终端工具',
+        versions: [
+          { version: '2.7.0', name: 'Portable版', url: './tools/02 开发/WindTerm_2.7.0_Windows_Portable_x86_64.zip', latest: true }
+        ]
+      }
+    ],
+    office: [
+      {
+        name: 'Chrome',
+        icon: '🌐',
+        desc: 'Google出品的快速、安全的浏览器',
+        versions: [
+          { version: '最新版', name: '离线安装包', url: './tools/03 办公/ChromeSetup.exe', latest: true }
+        ]
+      },
+      {
+        name: 'WPS Office',
+        icon: '📝',
+        desc: '国产办公套件，兼容Microsoft Office',
+        versions: [
+          { version: '2024', name: '安装包', url: './tools/03 办公/WPS_Setup_28505.exe', latest: true }
+        ]
+      },
+      {
+        name: 'Office Tool Plus',
+        icon: '🛠️',
+        desc: 'Office部署和激活管理工具',
+        versions: [
+          { version: '最新版', name: '下载页', url: 'https://otp.landian.vip/', latest: true }
+        ]
+      },
+      {
+        name: '微信',
+        icon: '💬',
+        desc: '即时通讯软件，支持文字、语音、视频',
+        versions: [
+          { version: '4.1.13', name: 'Windows版', url: './tools/03 办公/WeChatWin_4.1.13.exe', latest: true }
+        ]
+      },
+      {
+        name: '钉钉',
+        icon: '📌',
+        desc: '企业级通讯和协作平台',
+        versions: [
+          { version: '最新版', name: 'Windows版', url: './tools/03 办公/dingtalk_downloader.exe', latest: true }
+        ]
+      },
+      {
+        name: 'Obsidian',
+        icon: '📓',
+        desc: '强大的知识库和笔记软件，支持Markdown',
+        versions: [
+          { version: '最新版', name: '下载页', url: 'https://obsidian.md/download', latest: true }
+        ]
+      },
+      {
+        name: 'Notepad++',
+        icon: '📄',
+        desc: '免费的代码和文本编辑器，支持多种语言',
+        versions: [
+          { version: '8.9.8', name: 'x64安装包', url: './tools/03 办公/npp.8.9.8.Installer.x64.exe', latest: true }
+        ]
+      },
+      {
+        name: '向日葵',
+        icon: '🌻',
+        desc: '远程控制软件，跨平台远程桌面',
+        versions: [
+          { version: '16.6.0', name: '个人版', url: './tools/03 办公/AweSun_16.6.0.32198.exe', latest: true }
+        ]
+      }
+    ],
+    ai: [
+      {
+        name: 'ChatGPT',
+        icon: '🤖',
+        desc: 'OpenAI开发的AI对话助手',
+        versions: [
+          { version: '桌面版', name: 'Windows安装包', url: './tools/04 AI/ChatGPT Installer.exe', latest: true },
+          { version: '网页版', name: '在线使用', url: 'https://chat.openai.com', latest: false }
+        ]
+      },
+      {
+        name: 'Claude',
+        icon: '🧠',
+        desc: 'Anthropic开发的AI助手，擅长分析和写作',
+        versions: [
+          { version: '网页版', name: '在线使用', url: 'https://claude.ai', latest: true }
+        ]
+      },
+      {
+        name: 'LobeHub',
+        icon: '🤯',
+        desc: '开源AI聊天客户端，支持多种模型',
+        versions: [
+          { version: '2.2.15', name: '安装包', url: './tools/03 办公/LobeHub-2.2.15-setup.exe', latest: true }
+        ]
+      },
+      {
+        name: 'CC-Switch',
+        icon: '🔑',
+        desc: 'API Key切换管理工具',
+        versions: [
+          { version: '3.20.0', name: 'Windows安装包', url: './tools/04 AI/CC-Switch-v3.20.0-Windows.msi', latest: true }
+        ]
+      }
+    ],
+    entertainment: [
+      {
+        name: 'PotPlayer',
+        icon: '🎬',
+        desc: '功能强大的视频播放器，支持多种格式',
+        versions: [
+          { version: '最新版', name: '下载页', url: 'https://potplayer.daum.net/', latest: true }
+        ]
+      },
+      {
+        name: '网易云音乐',
+        icon: '🎵',
+        desc: '音乐流媒体平台，海量曲库',
+        versions: [
+          { version: '最新版', name: '下载页', url: 'https://music.163.com/#/download', latest: true }
+        ]
+      },
+      {
+        name: 'LOL',
+        icon: '🎮',
+        desc: '英雄联盟，热门MOBA游戏',
+        versions: [
+          { version: 'PBE', name: '体验服', url: 'https://lol.secure.dyn.riotcdn.net/channels/public/x/installer/current/pbe.pbe.exe', latest: true },
+          { version: '正式服', name: '官网下载', url: 'https://lol.qq.com/', latest: false }
+        ]
+      }
+    ],
+    download: [
+      {
+        name: '阿里云盘',
+        icon: '☁️',
+        desc: '阿里云存储服务，不限速',
+        versions: [
+          { version: '最新版', name: '下载页', url: 'https://www.aliyundrive.com/', latest: true }
+        ]
+      },
+      {
+        name: '百度网盘',
+        icon: '💾',
+        desc: '百度云存储服务，用户量大',
+        versions: [
+          { version: '最新版', name: '下载页', url: 'https://pan.baidu.com/download', latest: true }
+        ]
+      },
+      {
+        name: 'Motrix',
+        icon: '📥',
+        desc: '全能下载工具，支持HTTP/BT/磁力链',
+        versions: [
+          { version: '最新版', name: '下载页', url: 'https://motrix.app/', latest: true }
+        ]
+      },
+      {
+        name: '迅雷',
+        icon: '⚡',
+        desc: '老牌下载工具，高速下载',
+        versions: [
+          { version: '25.1.10', name: '网页安装包', url: './tools/03 办公/XunLeiWebSetup25.1.10.1615gw.exe', latest: true }
+        ]
+      }
+    ]
+  };
+
+  const categoryNames = {
+    system: '系统工具',
+    network: '网络工具',
+    devenv: '开发环境',
+    devtools: '开发工具',
+    office: '办公软件',
+    ai: 'AI辅助',
+    entertainment: '游戏娱乐',
+    download: '网盘下载'
+  };
+
+  let currentCategory = 'system';
+
+  // Update tools count
+  function updateToolsCount() {
+    const total = Object.values(toolsData).reduce((sum, tools) => sum + tools.length, 0);
+    const countEl = document.getElementById('toolsCount');
+    if (countEl) countEl.textContent = total;
+  }
+  updateToolsCount();
+
+  window.openToolsModal = function() {
+    document.getElementById('toolsModal').classList.add('active');
+    renderTools();
+  };
+
+  window.closeToolsModal = function() {
+    document.getElementById('toolsModal').classList.remove('active');
+  };
+
+  window.switchCategory = function(category) {
+    currentCategory = category;
+    document.querySelectorAll('.modal-category').forEach(el => {
+      el.classList.toggle('active', el.dataset.category === category);
+    });
+    document.getElementById('modalTitle').textContent = categoryNames[category];
+    renderTools();
+  };
+
+  function renderTools() {
+    const grid = document.getElementById('toolsGrid');
+    const tools = toolsData[currentCategory] || [];
+    grid.innerHTML = tools.map((tool, index) => `
+      <div class="tool-card" onclick="toggleToolCard(this)">
+        <div class="tool-card-main">
+          <div class="tool-icon">${tool.icon}</div>
+          <div class="tool-info">
+            <div class="tool-name">${tool.name}</div>
+            <div class="tool-desc">${tool.desc}</div>
+          </div>
+          <svg class="tool-expand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+        <div class="tool-versions">
+          <div class="tool-versions-list">
+            ${tool.versions.map(v => `
+              <div class="tool-version-item">
+                <div class="tool-version-info">
+                  <span class="tool-version-badge ${v.latest ? 'latest' : ''}">${v.latest ? '最新' : v.version}</span>
+                  <span class="tool-version-name">${v.name}</span>
+                </div>
+                <a class="tool-version-download" href="${v.url}" target="_blank" onclick="event.stopPropagation()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                  下载
+                </a>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function toggleToolCard(card) {
+    const wasExpanded = card.classList.contains('expanded');
+    // Close all other cards
+    document.querySelectorAll('.tool-card.expanded').forEach(c => c.classList.remove('expanded'));
+    // Toggle current card
+    if (!wasExpanded) {
+      card.classList.add('expanded');
+    }
+  }
+
+  // Close modal on overlay click
+  document.getElementById('toolsModal').addEventListener('click', (e) => {
+    if (e.target.id === 'toolsModal') closeToolsModal();
+  });
+
+  // Close modal on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeToolsModal();
+  });
 </script>
 </body>
 </html>

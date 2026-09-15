@@ -1,0 +1,112 @@
+name: 网络工具
+icon: /icons/type/Network.svg
+children:
+  - name: Clash Verge Rev
+    icon: /icons/ClashVergeRev.png
+    desc: 基于Clash内核的跨平台代理客户端
+    tags: [VPN, 代理, 翻墙]
+    versions:
+      - version: 最新版
+        name: Windows
+        url: https://github.com/clash-verge-rev/clash-verge-rev/releases
+        latest: true
+
+  - name: OpenVPN
+    icon: /icons/OpenVPN.svg
+    desc: 开源VPN解决方案，支持SSL/TLS加密
+    tags: [VPN, 开源, 加密]
+    versions:
+      - version: 最新版
+        name: Connect客户端
+        url: https://openvpn.net/client/
+        latest: true
+
+  - name: EasyConnect
+    icon: /icons/EasyConnect.png
+    desc: 企业级VPN客户端，支持多种认证方式
+    tags: [VPN, 企业, 认证]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://easy-connect.org/#download
+        latest: true
+
+  - name: TailScale
+    icon: /icons/TailScale.svg
+    desc: 零配置VPN，基于WireGuard协议，支持多平台
+    tags: [VPN, WireGuard, 零配置]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://tailscale.com/download
+        latest: true
+
+  - name: Wireshark
+    icon: /icons/Wireshark.svg
+    desc: 网络协议分析器，抓包调试必备工具
+    tags: [抓包, 分析, 调试]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://www.wireshark.org/download.html
+        latest: true
+
+  - name: RaiDrive
+    icon: /icons/RaiDrive.svg
+    desc: 将云存储挂载为本地磁盘使用
+    tags: [网盘, 挂载, 云存储]
+    versions:
+      - version: 最新版
+        name: 标准版
+        url: https://www.raidrive.com/download
+        latest: true
+
+  - name: iperf
+    icon: /icons/iperf.png
+    desc: 网络性能测试工具，测量带宽和延迟
+    tags: [测试, 带宽, 性能]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://iperf.fr/iperf-download.php
+        latest: true
+
+  - name: mkcert
+    icon: /icons/GitHub.svg
+    desc: 本地HTTPS证书生成工具，开发调试必备
+    tags: [HTTPS, 证书, 开发]
+    versions:
+      - version: 最新版
+        name: 发布页
+        url: https://github.com/FiloSottile/mkcert/releases
+        latest: true
+
+  - name: 向日葵
+    icon: /icons/向日葵.jpg
+    desc: 远程控制软件，跨平台远程桌面
+    tags: [远程, 控制, 协作]
+    versions:
+      - version: 最新版
+        name: 个人版
+        url: https://sunlogin.oray.com/download
+        latest: true
+
+  - name: 网易UU远程
+    icon: /icons/网易UU远程.png
+    desc: 远程控制软件，跨平台远程桌面
+    tags: [远程, 控制, 协作]
+    versions:
+      - version: 最新版
+        name: 下载页
+        url: https://uuyc.163.com/download/
+        latest: true
+
+  - name: 雷神加速器
+    icon: /icons/雷神加速器.svg
+    desc: 游戏加速器，优化网络连接，降低延迟
+    tags: [游戏, 加速, 网络]
+    versions:
+      - version: 最新版
+        name: Windows
+        url: https://www.leigod.com/download-win.html
+        latest: true

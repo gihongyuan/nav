@@ -12,6 +12,8 @@ const ROOT = fileURLToPath(new URL('.', import.meta.url))
 const CONFIG_DIR = join(ROOT, 'config')
 /** 书签目录 */
 const BOOKMARKS_DIR = join(CONFIG_DIR, 'bookmarks')
+/** 工具目录 */
+const TOOLS_DIR = join(CONFIG_DIR, 'tools')
 /** 图标目录 */
 const ICONS_DIR = join(CONFIG_DIR, 'icons')
 
@@ -37,6 +39,7 @@ function navConfigPlugin(): Plugin {
     // 读取全局配置
     const global = loadYaml(join(CONFIG_DIR, 'global.yaml'))
     const categoryOrder = (global.categoryOrder as string[]) ?? []
+    const toolOrder = (global.toolOrder as string[]) ?? []
 
     // 读取所有书签文件
     const bookmarkFiles = readdirSync(BOOKMARKS_DIR).filter((f) => f.endsWith('.yaml'))
@@ -58,12 +61,34 @@ function navConfigPlugin(): Plugin {
       if (!categoryOrder.includes(key)) urls.push(data)
     }
 
+    // 读取所有工具文件
+    const tools: unknown[] = []
+    if (existsSync(TOOLS_DIR)) {
+      const toolFiles = readdirSync(TOOLS_DIR).filter((f) => f.endsWith('.yaml'))
+      const toolsMap = new Map<string, unknown>()
+      for (const file of toolFiles) {
+        const key = basename(file, '.yaml')
+        const data = loadYaml(join(TOOLS_DIR, file))
+        toolsMap.set(key, data)
+      }
+      // 按 toolOrder 排序
+      for (const key of toolOrder) {
+        const tool = toolsMap.get(key)
+        if (tool) tools.push(tool)
+      }
+      // 追加未在 order 中列出的分类
+      for (const [key, data] of toolsMap) {
+        if (!toolOrder.includes(key)) tools.push(data)
+      }
+    }
+
     return {
       title: global.title,
       icon: global.icon,
       background: global.background,
       search: global.search,
       urls,
+      tools,
     }
   }
 
@@ -109,6 +134,13 @@ function navConfigPlugin(): Plugin {
         for (const file of readdirSync(BOOKMARKS_DIR)) {
           if (file.endsWith('.yaml')) {
             this.addWatchFile(join(BOOKMARKS_DIR, file))
+          }
+        }
+      }
+      if (existsSync(TOOLS_DIR)) {
+        for (const file of readdirSync(TOOLS_DIR)) {
+          if (file.endsWith('.yaml')) {
+            this.addWatchFile(join(TOOLS_DIR, file))
           }
         }
       }

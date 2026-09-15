@@ -45,3 +45,17 @@ categoryOrder:
   - cloud
   - email
   - vpn
+
+# ============================
+# 工具分类顺序（文件名，不含扩展名）
+# 列表顺序 = 工具弹窗侧边栏显示顺序
+# ============================
+toolOrder:
+  - system
+  - network
+  - devenv
+  - devtools
+  - office
+  - ai
+  - entertainment
+  - download

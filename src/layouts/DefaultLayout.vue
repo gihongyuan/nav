@@ -2,6 +2,10 @@
   <div class="layout">
     <!-- 壁纸层 -->
     <div class="layout__wallpaper" :class="{ 'is-focused': focused }" :style="wallpaperStyle" />
+    <!-- 工具入口按钮 -->
+    <ToolButton />
+    <!-- 工具弹窗 -->
+    <ToolModal />
     <div class="layout__content">
       <router-view />
     </div>
@@ -12,6 +16,7 @@
 import { computed } from 'vue'
 import { useSearchFocus } from '@/composables'
 import { useConfigStore } from '@/stores'
+import { ToolButton, ToolModal } from '@/components/business'
 
 const { focused } = useSearchFocus()
 const configStore = useConfigStore()

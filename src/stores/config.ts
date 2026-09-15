@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import type { BookmarkCategory } from '@/types/config'
+import type { BookmarkCategory, ToolCategory } from '@/types/config'
 import { parseConfig, resolveIcon } from '@/utils'
 import { useClickStats } from '@/composables/useClickStats'
 // 编译期内联 config/ 目录下的所有配置（由 navConfigPlugin 虚拟模块处理）
@@ -25,6 +25,10 @@ export const useConfigStore = defineStore('config', () => {
   /** 默认选中「常用」 */
   const activeCategory = ref<string>(FREQUENT_CATEGORY)
 
+  /** 工具弹窗状态 */
+  const toolModalVisible = ref(false)
+  const activeToolCategory = ref<string>('')
+
   /** 跨分类的全部链接（独立 memo，避免被 categories 重算时拖累） */
   const allLinks = computed(() => config.value.urls.flatMap((c) => c.children))
 
@@ -47,6 +51,22 @@ export const useConfigStore = defineStore('config', () => {
     return [frequent, ...config.value.urls]
   })
 
+  /** 工具分类列表 */
+  const toolCategories = computed<ToolCategory[]>(() => config.value.tools)
+
+  /** 工具总数 */
+  const toolCount = computed(() =>
+    config.value.tools.reduce((sum, cat) => sum + cat.children.length, 0),
+  )
+
+  /** 当前选中的工具分类 */
+  const currentToolCategory = computed(() => {
+    if (!activeToolCategory.value && config.value.tools.length > 0) {
+      return config.value.tools[0]
+    }
+    return config.value.tools.find((c) => c.name === activeToolCategory.value) ?? config.value.tools[0]
+  })
+
   /**
    * 当前可见的书签列表
    * - 「常用」态：点击次数倒序 Top12（含 yaml 顺序补位）
@@ -66,6 +86,21 @@ export const useConfigStore = defineStore('config', () => {
     activeCategory.value = name
   }
 
+  function openToolModal() {
+    toolModalVisible.value = true
+    if (!activeToolCategory.value && config.value.tools.length > 0) {
+      activeToolCategory.value = config.value.tools[0].name
+    }
+  }
+
+  function closeToolModal() {
+    toolModalVisible.value = false
+  }
+
+  function setToolCategory(name: string) {
+    activeToolCategory.value = name
+  }
+
   return {
     config,
     activeCategory,
@@ -74,5 +109,14 @@ export const useConfigStore = defineStore('config', () => {
     allLinks,
     searchEngines,
     setCategory,
+    // 工具相关
+    toolModalVisible,
+    activeToolCategory,
+    toolCategories,
+    toolCount,
+    currentToolCategory,
+    openToolModal,
+    closeToolModal,
+    setToolCategory,
   }
 })

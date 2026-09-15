@@ -35,8 +35,8 @@ const configStore = useConfigStore()
   align-items: center;
   justify-content: center;
   background: var(--color-surface);
-  backdrop-filter: blur(var(--blur-md));
   -webkit-backdrop-filter: blur(var(--blur-md));
+  backdrop-filter: blur(var(--blur-md));
   border: 1px solid var(--color-border);
   border-left: none;
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
@@ -70,8 +70,8 @@ const configStore = useConfigStore()
   top: 50%;
   transform: translateY(-50%) translateX(-8px);
   background: var(--color-surface-strong);
-  backdrop-filter: blur(var(--blur-sm));
   -webkit-backdrop-filter: blur(var(--blur-sm));
+  backdrop-filter: blur(var(--blur-sm));
   color: var(--color-text);
   font-size: var(--text-sm);
   font-weight: var(--font-weight-semibold);

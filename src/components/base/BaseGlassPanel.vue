@@ -38,12 +38,12 @@ const style = computed(() => {
   box-shadow: var(--shadow-1);
 }
 .blur-sm {
-  backdrop-filter: blur(var(--blur-sm));
   -webkit-backdrop-filter: blur(var(--blur-sm));
+  backdrop-filter: blur(var(--blur-sm));
 }
 .blur-md {
-  backdrop-filter: blur(var(--blur-md));
   -webkit-backdrop-filter: blur(var(--blur-md));
+  backdrop-filter: blur(var(--blur-md));
 }
 .radius-sm {
   border-radius: var(--radius-sm);

@@ -190,4 +190,11 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  css: {
+    postcss: './postcss.config.js',
+  },
+  build: {
+    // 使用 lightningcss 替代 esbuild 进行 CSS 压缩
+    cssMinify: 'lightningcss',
+  },
 })

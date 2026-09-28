@@ -1,6 +1,10 @@
 name: 网络
 icon: /icons/type/Network.svg
 children:
+  - name: TailScale
+    icon: /icons/TailScale.svg
+    url: https://console.tailscale.com/admin/
+    background: transparent
   - name: NPM
     icon: /icons/NPM.png
     url: http://192.168.97.2:81/

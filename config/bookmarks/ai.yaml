@@ -5,6 +5,9 @@ children:
     icon: /icons/Lobechat.png
     url: http://192.168.97.4:3210/
     background: transparent
+  - name: CHY
+    icon: /icons/newApi.png
+    url: http://10.100.15.3:3000/
   - name: 豆包
     icon: /icons/豆包.svg
     url: https://www.doubao.com/chat/
@@ -33,11 +36,11 @@ children:
   - name: 阿里百炼
     icon: /icons/阿里百炼.svg
     url: https://www.aliyun.com/product/bailian/
-  - name: Aizex API
-    icon: /icons/newApi.png
-    url: https://aizex.top/
-    description: Aizex API
   - name: 302.ai
     icon: /icons/302.webp
     url: https://302.ai/
+    background: transparent
+  - name: OpenCode
+    icon: /icons/OpenCode.svg
+    url: https://opencode.ai/console/
     background: transparent
